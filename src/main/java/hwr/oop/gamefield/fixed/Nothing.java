@@ -1,4 +1,4 @@
-package hwr.oop.GameField;
+package hwr.oop.gamefield.fixed;
 
 public class Nothing implements FieldObjects{
     @Override
