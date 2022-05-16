@@ -1,4 +1,4 @@
-package hwr.oop.gamefield.fixed;
+package hwr.oop.gameobjects.fixed;
 
 import hwr.oop.Position;
 

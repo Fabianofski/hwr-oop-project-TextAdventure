@@ -1,4 +1,4 @@
-package hwr.oop.gamefield.fixed;
+package hwr.oop.gameobjects.fixed;
 
 public class Wall implements FieldObjects{
     @Override
