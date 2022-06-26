@@ -5,6 +5,12 @@ import hwr.oop.Position;
 public class NPC implements FieldObject {
 
     Position position = new Position();
+
+    @Override
+    public String getObjectIcon() {
+        return ")";
+    }
+
     @Override
     public Position getPosition() {
         return position;

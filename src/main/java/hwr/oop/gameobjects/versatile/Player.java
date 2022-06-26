@@ -34,6 +34,11 @@ public class Player implements Versatile{
     }
 
     @Override
+    public String getObjectIcon() {
+        return "P";
+    }
+
+    @Override
     public void moveByAmount(Position amount) {
         position.add(amount);
     }

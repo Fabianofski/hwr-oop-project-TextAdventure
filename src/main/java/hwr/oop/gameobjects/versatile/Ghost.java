@@ -25,6 +25,11 @@ public class Ghost implements Versatile{
     }
 
     @Override
+    public String getObjectIcon() {
+        return "G";
+    }
+
+    @Override
     public void moveByAmount(Position amount) {
         position.add(amount);
     }
