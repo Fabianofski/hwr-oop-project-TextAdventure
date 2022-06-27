@@ -6,11 +6,11 @@ public class NPC implements FixedObject {
 
     @Override
     public String getObjectIcon() {
-        return ")";
+        return "Ω";
     }
 
     @Override
     public void triggerEvent() {
-
+        System.out.println("Talking to NPC.");
     }
 }

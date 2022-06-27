@@ -71,9 +71,9 @@ public class FixedObjectsTest {
         }
 
         @Test
-        void npc_getObjectIcon_iconIsOpenBracket() {
+        void npc_getObjectIcon_iconIsOmega() {
             String icon = npc.getObjectIcon();
-            assertThat(icon).isEqualTo(")");
+            assertThat(icon).isEqualTo("Ω");
         }
     }
     @Nested

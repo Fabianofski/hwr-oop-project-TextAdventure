@@ -12,6 +12,6 @@ public class Door implements FixedObject {
 
     @Override
     public void triggerEvent() {
-
+        System.out.println("You don't have a Key to open the door.");
     }
 }
