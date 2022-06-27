@@ -3,6 +3,7 @@ package hwr.oop;
 import hwr.oop.gameobjects.fixed.Door;
 import hwr.oop.gameobjects.fixed.FixedObject;
 import hwr.oop.gameobjects.fixed.Nothing;
+import hwr.oop.gameobjects.fixed.Wall;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -22,12 +23,16 @@ public class ManualTest {
         }
         testLevel[5][6] = new Door();
 
+        for (int i = 0; i < 6; i++) {
+            testLevel[i + 2][4] = new Wall();
+        }
+
         game = new Game(testLevel, new Position(5,5), new Position(2,3));
     }
 
     @Test
     @Disabled
-    void main(String[] args) {
+    void main() {
         game.printGameStateToConsole();
         Scanner in = new Scanner(System.in);
         while (true){

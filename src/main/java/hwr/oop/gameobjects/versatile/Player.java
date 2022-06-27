@@ -1,9 +1,11 @@
 package hwr.oop.gameobjects.versatile;
 
+import hwr.oop.Game;
 import hwr.oop.Position;
 
 public class Player implements VersatileObject {
     private Position position;
+    private Game game;
     private Position[] viewDirections;
     private int currentViewDirection = 0;
 
@@ -13,8 +15,9 @@ public class Player implements VersatileObject {
 
     private int lives;
 
-    public Player(Position position){
+    public Player(Position position, Game game){
         this.position = position;
+        this.game = game;
         this.lives = 3;
         viewDirections = new Position[]{
                 new Position(0,1),
@@ -65,6 +68,12 @@ public class Player implements VersatileObject {
 
     @Override
     public void moveByAmount(Position amountPos) {
+        int size = game.getFieldSize() - 1;
         position.add(amountPos);
+        position = new Position(clamp(position.getX(), 0, size), clamp(position.getY(), 0, size));
+    }
+
+    private int clamp(int val, int min, int max) {
+        return Math.max(min, Math.min(max, val));
     }
 }

@@ -49,6 +49,22 @@ public class GameTest {
 
     @Nested
     class PositionTests{
+
+        @Test
+        void Position_hashCode_worksAsIntended() {
+            Position position = new Position();
+            Position samePosition = new Position();
+
+            assertThat(position.hashCode()).isEqualTo(samePosition.hashCode());
+        }
+
+        @Test
+        void Position_toString_worksAsIntended() {
+            Position position = new Position();
+
+            assertThat(position.toString()).isEqualTo("Position{x=0,y=0}");
+        }
+
         @Test
         void Position_add_addsAmountToPosition() {
             Position position = new Position();

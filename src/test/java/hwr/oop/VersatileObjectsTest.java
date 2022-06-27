@@ -1,5 +1,7 @@
 package hwr.oop;
 
+import hwr.oop.gameobjects.fixed.FixedObject;
+import hwr.oop.gameobjects.fixed.Nothing;
 import hwr.oop.gameobjects.versatile.Ghost;
 import hwr.oop.gameobjects.versatile.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,8 +19,17 @@ public class VersatileObjectsTest {
 
         @BeforeEach
         void beforeEach() {
-            player = new Player(new Position());
-            ghost = new Ghost(new Position(), player);
+
+            FixedObject[][] testLevel = new FixedObject[9][9];
+            for (int x = 0; x < 9; x++) {
+                for (int y = 0; y < 9; y++) {
+                    testLevel[x][y] = new Nothing();
+                }
+            }
+            Game game = new Game(testLevel, new Position(), new Position());
+
+            player = game.getPlayer();
+            ghost = game.getGhost();
         }
 
         @Test
@@ -59,8 +70,17 @@ public class VersatileObjectsTest {
 
         @BeforeEach
         void beforeEach() {
-            player = new Player(new Position());
-            ghost = new Ghost(new Position(), player);
+
+            FixedObject[][] testLevel = new FixedObject[9][9];
+            for (int x = 0; x < 9; x++) {
+                for (int y = 0; y < 9; y++) {
+                    testLevel[x][y] = new Nothing();
+                }
+            }
+            Game game = new Game(testLevel, new Position(), new Position());
+
+            player = game.getPlayer();
+            ghost = game.getGhost();
         }
 
         @Test

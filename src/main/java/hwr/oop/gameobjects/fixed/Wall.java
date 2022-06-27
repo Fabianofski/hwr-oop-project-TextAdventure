@@ -6,7 +6,7 @@ public class Wall implements FixedObject {
 
     @Override
     public String getObjectIcon() {
-        return "=";
+        return "#";
     }
 
 

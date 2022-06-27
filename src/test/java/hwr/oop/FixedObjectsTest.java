@@ -95,9 +95,9 @@ public class FixedObjectsTest {
         }
 
         @Test
-        void wall_getObjectIcon_iconIsEqualSign() {
+        void wall_getObjectIcon_iconIsHashtag() {
             String icon = wall.getObjectIcon();
-            assertThat(icon).isEqualTo("=");
+            assertThat(icon).isEqualTo("#");
         }
     }
 

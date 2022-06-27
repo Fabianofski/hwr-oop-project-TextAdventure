@@ -11,13 +11,24 @@ public class Game {
     Player player;
     Ghost ghost;
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Ghost getGhost() {
+        return ghost;
+    }
+
+    public int getFieldSize() {
+        return fieldSize;
+    }
+
     public Game(FixedObject[][] level, Position playerPos, Position ghostPos) {
         this.fieldSize = level.length;
         this.GameField = level;
-        this.player = new Player(playerPos);
+        this.player = new Player(playerPos, this);
         this.ghost = new Ghost(ghostPos, player);
     }
-
 
     public void proceed(String direction){
         player.turn(direction.equals("Right"));
