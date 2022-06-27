@@ -2,7 +2,6 @@ package hwr.oop;
 
 import hwr.oop.gameobjects.versatile.Ghost;
 import hwr.oop.gameobjects.versatile.Player;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -65,10 +64,25 @@ public class VersatileObjectsTest {
         }
 
         @Test
-        void Player_moveByAmount_movesToNewPosition() {
+        void Player_moveByPositionAmount_movesToNewPosition() {
             Position amount = new Position(3,3);
             player.moveByAmount(amount);
             assertThat(player.getPosition()).isEqualTo(amount);
+        }
+
+        @Test
+        void Player_moveByIntAmount_movesToNewPosition() {
+            int amount = 3;
+            String viewDirection = player.getObjectIcon();
+            assertThat(viewDirection).isEqualTo("V");
+
+            Position startingPos = player.getPosition();
+            Position expectedPos = new Position(startingPos.getX(), startingPos.getY() + amount);
+
+            player.moveByAmount(amount);
+            Position playerPos = player.getPosition();
+
+            assertThat(playerPos).isEqualTo(expectedPos);
         }
 
         @Test
@@ -92,6 +106,42 @@ public class VersatileObjectsTest {
             player.harmPlayer(lives - 1);
             boolean isDead = player.isDead();
             assertThat(isDead).isFalse();
+        }
+
+        @Test
+        void Player_turnPlayerRight_looksInRightDirection() {
+            String icon = player.getObjectIcon();
+            assertThat(icon).isEqualTo("V");
+
+            player.turn(true);
+            icon = player.getObjectIcon();
+            assertThat(icon).isEqualTo("<");
+
+            player.turn(true);
+            icon = player.getObjectIcon();
+            assertThat(icon).isEqualTo("^");
+
+            player.turn(true);
+            icon = player.getObjectIcon();
+            assertThat(icon).isEqualTo(">");
+        }
+
+        @Test
+        void Player_turnPlayerLeft_looksInRightDirection() {
+            String icon = player.getObjectIcon();
+            assertThat(icon).isEqualTo("V");
+
+            player.turn(false);
+            icon = player.getObjectIcon();
+            assertThat(icon).isEqualTo(">");
+
+            player.turn(false);
+            icon = player.getObjectIcon();
+            assertThat(icon).isEqualTo("^");
+
+            player.turn(false);
+            icon = player.getObjectIcon();
+            assertThat(icon).isEqualTo("<");
         }
     }
 

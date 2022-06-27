@@ -2,9 +2,8 @@ package hwr.oop.gameobjects.fixed;
 
 import hwr.oop.Position;
 
-public class Nothing implements FieldObject {
+public class Nothing implements FixedObject {
 
-    Position position = new Position();
 
     @Override
     public String getObjectIcon() {
@@ -12,12 +11,7 @@ public class Nothing implements FieldObject {
     }
 
     @Override
-    public Position getPosition() {
-        return position;
-    }
-
-    @Override
     public void triggerEvent() {
-
+        System.out.println("Nothing happens!");
     }
 }

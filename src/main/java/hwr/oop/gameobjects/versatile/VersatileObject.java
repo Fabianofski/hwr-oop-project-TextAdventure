@@ -2,7 +2,7 @@ package hwr.oop.gameobjects.versatile;
 
 import hwr.oop.Position;
 
-public interface Versatile {
+public interface VersatileObject {
     Position getPosition();
     String getObjectIcon();
 

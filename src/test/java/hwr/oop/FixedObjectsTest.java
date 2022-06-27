@@ -1,6 +1,7 @@
 package hwr.oop;
 
 import hwr.oop.gameobjects.fixed.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -10,42 +11,93 @@ public class FixedObjectsTest {
 
     @Nested
     class DoorTests{
+        Door door;
+        @BeforeEach
+        void setUp() {
+            door = new Door();
+        }
+
         @Test
         void door_isFieldObject(){
-            Door door = new Door();
             assertThat(door)
-                    .isInstanceOf(FieldObject.class)
+                    .isInstanceOf(FixedObject.class)
                     .isInstanceOf(Door.class);
+        }
+
+        @Test
+        void door_getObjectIcon_iconIsPi() {
+            String icon = door.getObjectIcon();
+            assertThat(icon).isEqualTo("Π");
         }
     }
     @Nested
     class NothingTests{
+        Nothing nothing;
+
+        @BeforeEach
+        void setUp() {
+            nothing = new Nothing();
+        }
+
         @Test
         void nothing_isFieldObject(){
-            Nothing nothing = new Nothing();
+            nothing = new Nothing();
             assertThat(nothing)
-                    .isInstanceOf(FieldObject.class)
+                    .isInstanceOf(FixedObject.class)
                     .isInstanceOf(Nothing.class);
+        }
+
+        @Test
+        void nothing_getObjectIcon_iconIsEmptyString() {
+            String icon = nothing.getObjectIcon();
+            assertThat(icon).isEqualTo(" ");
         }
     }
     @Nested
     class NPCTests{
+        NPC npc;
+
+        @BeforeEach
+        void setUp() {
+            npc = new NPC();
+        }
+
         @Test
         void npc_isFieldObject(){
-            NPC npc = new NPC();
+            npc = new NPC();
             assertThat(npc)
-                    .isInstanceOf(FieldObject.class)
+                    .isInstanceOf(FixedObject.class)
                     .isInstanceOf(NPC.class);
+        }
+
+        @Test
+        void npc_getObjectIcon_iconIsOpenBracket() {
+            String icon = npc.getObjectIcon();
+            assertThat(icon).isEqualTo(")");
         }
     }
     @Nested
     class WallTests{
+
+        Wall wall;
+
+        @BeforeEach
+        void setUp() {
+            wall = new Wall();
+        }
+
         @Test
         void wall_isFieldObject(){
-            Wall wall = new Wall();
+            wall = new Wall();
             assertThat(wall)
-                    .isInstanceOf(FieldObject.class)
+                    .isInstanceOf(FixedObject.class)
                     .isInstanceOf(Wall.class);
+        }
+
+        @Test
+        void wall_getObjectIcon_iconIsEqualSign() {
+            String icon = wall.getObjectIcon();
+            assertThat(icon).isEqualTo("=");
         }
     }
 

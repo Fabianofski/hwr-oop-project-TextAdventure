@@ -2,19 +2,13 @@ package hwr.oop.gameobjects.fixed;
 
 import hwr.oop.Position;
 
-public class Wall implements FieldObject {
-
-    Position position = new Position();
+public class Wall implements FixedObject {
 
     @Override
     public String getObjectIcon() {
         return "=";
     }
 
-    @Override
-    public Position getPosition() {
-        return position;
-    }
 
     @Override
     public void triggerEvent() {

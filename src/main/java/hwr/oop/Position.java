@@ -3,7 +3,17 @@ package hwr.oop;
 import java.util.Objects;
 
 public class Position {
-    int x, y;
+    int x;
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    int y;
 
     public Position(){
         this(0,0);

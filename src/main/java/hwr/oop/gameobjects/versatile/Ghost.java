@@ -2,7 +2,7 @@ package hwr.oop.gameobjects.versatile;
 
 import hwr.oop.Position;
 
-public class Ghost implements Versatile{
+public class Ghost implements VersatileObject {
     private Position position = new Position();
     private Player player;
 
