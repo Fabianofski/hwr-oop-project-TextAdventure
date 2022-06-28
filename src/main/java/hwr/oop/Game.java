@@ -6,10 +6,11 @@ import hwr.oop.gameobjects.versatile.*;
 import java.util.Objects;
 
 public class Game {
-    FixedObject[][] GameField;
-    int fieldSize;
-    Player player;
-    Ghost ghost;
+    private FixedObject[][] gameField;
+    private int fieldSize;
+    private Player player;
+    private Ghost ghost;
+    private IOutputBuffer outputBuffer;
 
     public Player getPlayer() {
         return player;
@@ -23,45 +24,48 @@ public class Game {
         return fieldSize;
     }
 
-    public Game(FixedObject[][] level, Position playerPos, Position ghostPos) {
+    public Game(FixedObject[][] level, IOutputBuffer outputBuffer, Position playerPos, Position ghostPos) {
         this.fieldSize = level.length;
-        this.GameField = level;
+        this.outputBuffer = outputBuffer;
+        this.gameField = level;
         this.player = new Player(playerPos, this);
         this.ghost = new Ghost(ghostPos, player);
+
+        writeGameStateToOutputBuffer();
     }
 
     public void proceed(String direction){
         player.turn(direction.equals("Right"));
-        printConsoleOutput();
+        writeOutputBuffer();
     }
 
     public void proceed(int moveAmount){
         player.moveByAmount(moveAmount);
-        printConsoleOutput();
+        writeOutputBuffer();
     }
 
-    private void printConsoleOutput() {
-        printGameStateToConsole();
+    private void writeOutputBuffer() {
+        writeGameStateToOutputBuffer();
         Position playerPos = player.getPosition();
-        GameField[playerPos.x][playerPos.y].triggerEvent();
+        FixedObject fixedObject = gameField[playerPos.x][playerPos.y];
+        fixedObject.writeEventOutputBuffer();
     }
 
-    public String printGameStateToConsole(){
+    private void writeGameStateToOutputBuffer(){
         StringBuilder GameState = new StringBuilder();
         GameState.append("0123456789\n");
         for (int y = 0; y < fieldSize; y++) {
             GameState.append(y + 1);
             for (int x = 0; x < fieldSize; x++) {
-                if(Objects.equals(player.getPosition(), new Position(x, y)))
+                if (Objects.equals(player.getPosition(), new Position(x, y)))
                     GameState.append(player.getObjectIcon());
-                else if(Objects.equals(ghost.getPosition(), new Position(x, y)))
+                else if (Objects.equals(ghost.getPosition(), new Position(x, y)))
                     GameState.append(ghost.getObjectIcon());
                 else
-                    GameState.append(GameField[x][y].getObjectIcon());
+                    GameState.append(gameField[x][y].getObjectIcon());
             }
             GameState.append("\n");
         }
-        System.out.println(GameState);
-        return GameState.toString();
+        outputBuffer.writeToOutputBuffer(GameState.toString());
     }
 }

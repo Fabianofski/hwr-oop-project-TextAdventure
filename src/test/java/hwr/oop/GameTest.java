@@ -14,22 +14,25 @@ public class GameTest {
     @Nested
     class GameTests{
         Game game;
+        IOutputBuffer outputBuffer;
+
         @BeforeEach
         void setUp() {
+            outputBuffer = new OutputBuffer();
             FixedObject[][] testLevel = new FixedObject[9][9];
             for (int x = 0; x < 9; x++) {
                 for (int y = 0; y < 9; y++) {
-                    testLevel[x][y] = new Nothing();
+                    testLevel[x][y] = new Nothing(outputBuffer);
                 }
             }
-            testLevel[5][6] = new Door();
+            testLevel[5][6] = new Door(outputBuffer);
             Position playerPos = new Position(5, 5);
             Position ghostPos = new Position(2, 3);
-            game = new Game(testLevel, playerPos, ghostPos);
+            game = new Game(testLevel, outputBuffer, playerPos, ghostPos);
         }
 
         @Test
-        void Game_printGameStateToConsole_printsEmptyFieldOnStart() {
+        void proceed_outputBuffer_isFilledWithStartingField() {
             String expectedGameState =
                     "0123456789\n" +
                     "1         \n" +
@@ -42,7 +45,51 @@ public class GameTest {
                     "8         \n" +
                     "9         \n";
 
-            String printed = game.printGameStateToConsole();
+            String printed = outputBuffer.getOutputBuffer();
+            assertThat(printed).isEqualTo(expectedGameState);
+        }
+
+        @Test
+        void proceed_playerMovesOnDoor_isFilledWithGameFieldAndDoorEvent() {
+            String expectedGameState =
+                    "0123456789\n" +
+                    "1         \n" +
+                    "2         \n" +
+                    "3         \n" +
+                    "4  G      \n" +
+                    "5         \n" +
+                    "6         \n" +
+                    "7     V   \n" +
+                    "8         \n" +
+                    "9         \n" +
+                    "\nYou don't have a Key to open the door.";
+            outputBuffer.clearOutputBuffer();
+
+            game.proceed(1);
+
+            String printed = outputBuffer.getOutputBuffer();
+            assertThat(printed).isEqualTo(expectedGameState);
+        }
+
+        @Test
+        void proceed_playerTurnsRight_isFilledWithStartingFieldAndTurnedPlayer() {
+            String expectedGameState =
+                    "0123456789\n" +
+                            "1         \n" +
+                            "2         \n" +
+                            "3         \n" +
+                            "4  G      \n" +
+                            "5         \n" +
+                            "6     <   \n" +
+                            "7     Π   \n" +
+                            "8         \n" +
+                            "9         \n" +
+                            "\nNothing happens!";
+            outputBuffer.clearOutputBuffer();
+
+            game.proceed("Right");
+
+            String printed = outputBuffer.getOutputBuffer();
             assertThat(printed).isEqualTo(expectedGameState);
         }
     }

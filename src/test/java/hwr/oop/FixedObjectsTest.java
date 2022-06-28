@@ -12,9 +12,11 @@ public class FixedObjectsTest {
     @Nested
     class DoorTests{
         Door door;
+        IOutputBuffer outputBuffer;
         @BeforeEach
         void setUp() {
-            door = new Door();
+            outputBuffer = new OutputBuffer();
+            door = new Door(outputBuffer);
         }
 
         @Test
@@ -29,19 +31,28 @@ public class FixedObjectsTest {
             String icon = door.getObjectIcon();
             assertThat(icon).isEqualTo("Π");
         }
+
+        @Test
+        void door_writeEventOutputBuffer_writesToOutputBuffer() {
+            door.writeEventOutputBuffer();
+
+            assertThat(outputBuffer.getOutputBuffer()).isEqualTo("\nYou don't have a Key to open the door.");
+        }
     }
     @Nested
     class NothingTests{
         Nothing nothing;
+        IOutputBuffer outputBuffer;
 
         @BeforeEach
         void setUp() {
-            nothing = new Nothing();
+            outputBuffer = new OutputBuffer();
+            nothing = new Nothing(outputBuffer);
         }
 
         @Test
         void nothing_isFieldObject(){
-            nothing = new Nothing();
+            nothing = new Nothing(outputBuffer);
             assertThat(nothing)
                     .isInstanceOf(FixedObject.class)
                     .isInstanceOf(Nothing.class);
@@ -52,19 +63,29 @@ public class FixedObjectsTest {
             String icon = nothing.getObjectIcon();
             assertThat(icon).isEqualTo(" ");
         }
+
+        @Test
+        void nothing_writeEventOutputBuffer_writesToOutputBuffer() {
+            nothing.writeEventOutputBuffer();
+
+            assertThat(outputBuffer.getOutputBuffer()).isEqualTo("\nNothing happens!");
+        }
     }
     @Nested
     class NPCTests{
         NPC npc;
+        IOutputBuffer outputBuffer;
+
 
         @BeforeEach
         void setUp() {
-            npc = new NPC();
+            outputBuffer = new OutputBuffer();
+            npc = new NPC(outputBuffer);
         }
 
         @Test
         void npc_isFieldObject(){
-            npc = new NPC();
+            npc = new NPC(outputBuffer);
             assertThat(npc)
                     .isInstanceOf(FixedObject.class)
                     .isInstanceOf(NPC.class);
@@ -75,20 +96,28 @@ public class FixedObjectsTest {
             String icon = npc.getObjectIcon();
             assertThat(icon).isEqualTo("Ω");
         }
+
+        @Test
+        void npc_writeEventOutputBuffer_writesToOutputBuffer() {
+            npc.writeEventOutputBuffer();
+
+            assertThat(outputBuffer.getOutputBuffer()).isEqualTo("\nTalking to NPC.");
+        }
     }
     @Nested
     class WallTests{
 
         Wall wall;
+        IOutputBuffer outputBuffer;
 
         @BeforeEach
         void setUp() {
-            wall = new Wall();
+            outputBuffer = new OutputBuffer();
+            wall = new Wall(outputBuffer);
         }
 
         @Test
         void wall_isFieldObject(){
-            wall = new Wall();
             assertThat(wall)
                     .isInstanceOf(FixedObject.class)
                     .isInstanceOf(Wall.class);
@@ -98,6 +127,13 @@ public class FixedObjectsTest {
         void wall_getObjectIcon_iconIsHashtag() {
             String icon = wall.getObjectIcon();
             assertThat(icon).isEqualTo("#");
+        }
+
+        @Test
+        void wall_writeEventOutputBuffer_writesToOutputBuffer() {
+            wall.writeEventOutputBuffer();
+
+            assertThat(outputBuffer.getOutputBuffer()).isEqualTo("\nYou shouldn't be stuck in the wall!");
         }
     }
 

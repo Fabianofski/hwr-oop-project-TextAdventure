@@ -1,9 +1,15 @@
 package hwr.oop.gameobjects.fixed;
 
+import hwr.oop.IOutputBuffer;
 import hwr.oop.Position;
 
 public class Nothing implements FixedObject {
 
+    IOutputBuffer outputBuffer;
+
+    public Nothing(IOutputBuffer outputBuffer) {
+        this.outputBuffer = outputBuffer;
+    }
 
     @Override
     public String getObjectIcon() {
@@ -11,7 +17,7 @@ public class Nothing implements FixedObject {
     }
 
     @Override
-    public void triggerEvent() {
-        System.out.println("Nothing happens!");
+    public void writeEventOutputBuffer() {
+        outputBuffer.writeToOutputBuffer("\nNothing happens!");
     }
 }

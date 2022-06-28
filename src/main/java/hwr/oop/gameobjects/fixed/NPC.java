@@ -1,8 +1,15 @@
 package hwr.oop.gameobjects.fixed;
 
+import hwr.oop.IOutputBuffer;
 import hwr.oop.Position;
 
 public class NPC implements FixedObject {
+
+    IOutputBuffer outputBuffer;
+
+    public NPC(IOutputBuffer outputBuffer) {
+        this.outputBuffer = outputBuffer;
+    }
 
     @Override
     public String getObjectIcon() {
@@ -10,7 +17,7 @@ public class NPC implements FixedObject {
     }
 
     @Override
-    public void triggerEvent() {
-        System.out.println("Talking to NPC.");
+    public void writeEventOutputBuffer() {
+        outputBuffer.writeToOutputBuffer("\nTalking to NPC.");
     }
 }
