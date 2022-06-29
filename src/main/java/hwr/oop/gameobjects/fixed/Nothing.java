@@ -12,7 +12,7 @@ public class Nothing implements FixedObject {
 
     @Override
     public String getObjectIcon() {
-        return " ";
+        return "_";
     }
 
     @Override

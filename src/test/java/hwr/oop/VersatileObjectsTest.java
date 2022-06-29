@@ -41,14 +41,14 @@ public class VersatileObjectsTest {
         @Test
         void Ghost_moveByAmount_movesToNewPosition() {
             Position amount = new Position(3,3);
-            ghost.moveByAmount(amount);
+            ghost.setStartPosition(amount);
             assertThat(ghost.getPosition()).isEqualTo(amount);
         }
 
         @Test
         void Ghost_IsAtPlayer_returnsTrue() {
             player.moveByAmount(new Position(0,3));
-            ghost.moveByAmount(new Position(0,3));
+            ghost.setStartPosition(new Position(0,3));
             boolean isAtPlayer = ghost.ghostIsAtPlayer();
             assertThat(isAtPlayer).isTrue();
         }
@@ -56,7 +56,7 @@ public class VersatileObjectsTest {
         @Test
         void Ghost_IsAtPlayer_returnsFalse() {
             player.moveByAmount(new Position(0,3));
-            ghost.moveByAmount(new Position(3,4));
+            ghost.setStartPosition(new Position(3,4));
             boolean isAtPlayer = ghost.ghostIsAtPlayer();
             assertThat(isAtPlayer).isFalse();
         }

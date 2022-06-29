@@ -45,6 +45,12 @@ public class Game {
         ghost.moveByAmount(player.getPosition());
         writeIOHandler();
     }
+    public boolean gameOver(){
+        if(ghost.ghostIsAtPlayer()){
+            return true;
+        }
+        else{return false;}
+    }
 
     private void writeIOHandler() {
         writeGameStateToIOHandler();
@@ -55,16 +61,16 @@ public class Game {
 
     private void writeGameStateToIOHandler(){
         StringBuilder GameState = new StringBuilder();
-        GameState.append("0123456789\n");
+        GameState.append("0  1  2  3  4  5  6  7  8  9\n");
         for (int y = 0; y < fieldSize; y++) {
-            GameState.append(y + 1);
+            GameState.append(y + 1+"  ");
             for (int x = 0; x < fieldSize; x++) {
                 if (Objects.equals(player.getPosition(), new Position(x, y)))
-                    GameState.append(player.getObjectIcon());
+                    GameState.append(player.getObjectIcon()+"  ");
                 else if (Objects.equals(ghost.getPosition(), new Position(x, y)))
-                    GameState.append(ghost.getObjectIcon());
+                    GameState.append(ghost.getObjectIcon()+"  ");
                 else
-                    GameState.append(gameField[x][y].getObjectIcon());
+                    GameState.append(gameField[x][y].getObjectIcon()+"  ");
             }
             GameState.append("\n");
         }

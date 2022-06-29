@@ -80,16 +80,16 @@ public class GameTest {
         @Test
         void proceed_playerTurnsRight_isFilledWithStartingFieldAndTurnedPlayer() {
             String expectedGameState =
-                    "0123456789\n" +
-                            "1         \n" +
-                            "2         \n" +
-                            "3         \n" +
-                            "4  G      \n" +
-                            "5         \n" +
-                            "6     <   \n" +
-                            "7     Π   \n" +
-                            "8         \n" +
-                            "9         \n" +
+                    "0  1  2  3  4  5  6  7  8  9\n" +
+                            "1  _  _  _  _  _  _  _  _  _  \n" +
+                            "2  _  _  _  _  _  _  _  _  _  \n" +
+                            "3  _  _  _  _  _  _  _  _  _  \n" +
+                            "4  _  _  G  _  _  _  _  _  _  \n" +
+                            "5  _  _  _  _  _  _  _  _  _  \n" +
+                            "6  _  _  _  _  _  <  _  _  _  \n" +
+                            "7  _  _  _  _  _  Π  _  _  _  \n" +
+                            "8  _  _  _  _  _  _  _  _  _  \n" +
+                            "9  _  _  _  _  _  _  _  _  _  \n" +
                             "\nNothing happens!";
             ioHandler.clearOutputBuffer();
 

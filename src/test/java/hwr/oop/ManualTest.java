@@ -34,6 +34,14 @@ public class ManualTest {
     void manualTest() {
         while (true){
             ioHandler.writeOutputAndClearBuffer();
+            if(game.gameOver()){
+                ioHandler.addToOutputBuffer("The ghost killed you!\n");
+                String tryAgain = ioHandler.requestStringInput("Do you wanna try again?\n Yes/No");
+                if(tryAgain=="yes"|tryAgain== "Yes"){
+                    //nochmal starten lol
+                }
+                break;//?
+            }
             String decision = ioHandler.requestStringInput("(Move/Turn)?");
 
             if(decision.equals("Move")){
