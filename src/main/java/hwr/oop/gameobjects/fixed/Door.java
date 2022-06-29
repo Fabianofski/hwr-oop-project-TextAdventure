@@ -1,13 +1,12 @@
 package hwr.oop.gameobjects.fixed;
 
-import hwr.oop.IOutputBuffer;
-import hwr.oop.Position;
+import hwr.oop.IIOHandler;
 
 public class Door implements FixedObject {
-    IOutputBuffer outputBuffer;
+    IIOHandler ioHandler;
 
-    public Door(IOutputBuffer outputBuffer) {
-        this.outputBuffer = outputBuffer;
+    public Door(IIOHandler ioHandler) {
+        this.ioHandler = ioHandler;
     }
     @Override
     public String getObjectIcon() {
@@ -15,7 +14,7 @@ public class Door implements FixedObject {
     }
 
     @Override
-    public void writeEventOutputBuffer() {
-        outputBuffer.writeToOutputBuffer("\nYou don't have a Key to open the door.");
+    public void writeEventIOHandler() {
+        ioHandler.addToOutputBuffer("\nYou don't have a Key to open the door.");
     }
 }

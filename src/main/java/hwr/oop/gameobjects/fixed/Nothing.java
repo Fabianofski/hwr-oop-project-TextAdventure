@@ -1,14 +1,13 @@
 package hwr.oop.gameobjects.fixed;
 
-import hwr.oop.IOutputBuffer;
-import hwr.oop.Position;
+import hwr.oop.IIOHandler;
 
 public class Nothing implements FixedObject {
 
-    IOutputBuffer outputBuffer;
+    IIOHandler ioHandler;
 
-    public Nothing(IOutputBuffer outputBuffer) {
-        this.outputBuffer = outputBuffer;
+    public Nothing(IIOHandler ioHandler) {
+        this.ioHandler = ioHandler;
     }
 
     @Override
@@ -17,7 +16,7 @@ public class Nothing implements FixedObject {
     }
 
     @Override
-    public void writeEventOutputBuffer() {
-        outputBuffer.writeToOutputBuffer("\nNothing happens!");
+    public void writeEventIOHandler() {
+        ioHandler.addToOutputBuffer("\nNothing happens!");
     }
 }

@@ -5,18 +5,28 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.io.*;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class FixedObjectsTest {
 
+    IIOHandler ioHandler;
+    @BeforeEach
+    void setUp() {
+        ByteArrayInputStream input = new ByteArrayInputStream("Nothing".getBytes());
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+        ioHandler = new IOHandler(input, new PrintStream(output));
+    }
+
     @Nested
     class DoorTests{
         Door door;
-        IOutputBuffer outputBuffer;
+
         @BeforeEach
         void setUp() {
-            outputBuffer = new OutputBuffer();
-            door = new Door(outputBuffer);
+            door = new Door(ioHandler);
         }
 
         @Test
@@ -33,26 +43,24 @@ public class FixedObjectsTest {
         }
 
         @Test
-        void door_writeEventOutputBuffer_writesToOutputBuffer() {
-            door.writeEventOutputBuffer();
+        void door_writeEventIOHandler_writesToIOHandler() {
+            door.writeEventIOHandler();
 
-            assertThat(outputBuffer.getOutputBuffer()).isEqualTo("\nYou don't have a Key to open the door.");
+            assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nYou don't have a Key to open the door.");
         }
     }
     @Nested
     class NothingTests{
         Nothing nothing;
-        IOutputBuffer outputBuffer;
 
         @BeforeEach
         void setUp() {
-            outputBuffer = new OutputBuffer();
-            nothing = new Nothing(outputBuffer);
+            nothing = new Nothing(ioHandler);
         }
 
         @Test
         void nothing_isFieldObject(){
-            nothing = new Nothing(outputBuffer);
+            nothing = new Nothing(ioHandler);
             assertThat(nothing)
                     .isInstanceOf(FixedObject.class)
                     .isInstanceOf(Nothing.class);
@@ -65,27 +73,24 @@ public class FixedObjectsTest {
         }
 
         @Test
-        void nothing_writeEventOutputBuffer_writesToOutputBuffer() {
-            nothing.writeEventOutputBuffer();
+        void nothing_writeEventIOHandler_writesToIOHandler() {
+            nothing.writeEventIOHandler();
 
-            assertThat(outputBuffer.getOutputBuffer()).isEqualTo("\nNothing happens!");
+            assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nNothing happens!");
         }
     }
     @Nested
     class NPCTests{
         NPC npc;
-        IOutputBuffer outputBuffer;
-
 
         @BeforeEach
         void setUp() {
-            outputBuffer = new OutputBuffer();
-            npc = new NPC(outputBuffer);
+            npc = new NPC(ioHandler);
         }
 
         @Test
         void npc_isFieldObject(){
-            npc = new NPC(outputBuffer);
+            npc = new NPC(ioHandler);
             assertThat(npc)
                     .isInstanceOf(FixedObject.class)
                     .isInstanceOf(NPC.class);
@@ -98,22 +103,27 @@ public class FixedObjectsTest {
         }
 
         @Test
-        void npc_writeEventOutputBuffer_writesToOutputBuffer() {
-            npc.writeEventOutputBuffer();
+        void npc_writeEventIOHandlerFirstResponse_writesToIOHandler() {
+            npc.writeEventIOHandler();
 
-            assertThat(outputBuffer.getOutputBuffer()).isEqualTo("\nTalking to NPC.");
+            assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nOk.");
+        }
+
+        @Test
+        void npc_writeEventIOHandlerSecondResponse_writesToIOHandler() {
+            npc.writeEventIOHandler();
+
+            assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nOk.");
         }
     }
     @Nested
     class WallTests{
 
         Wall wall;
-        IOutputBuffer outputBuffer;
 
         @BeforeEach
         void setUp() {
-            outputBuffer = new OutputBuffer();
-            wall = new Wall(outputBuffer);
+            wall = new Wall(ioHandler);
         }
 
         @Test
@@ -130,10 +140,10 @@ public class FixedObjectsTest {
         }
 
         @Test
-        void wall_writeEventOutputBuffer_writesToOutputBuffer() {
-            wall.writeEventOutputBuffer();
+        void wall_writeEventIOHandler_writesToIOHandler() {
+            wall.writeEventIOHandler();
 
-            assertThat(outputBuffer.getOutputBuffer()).isEqualTo("\nYou shouldn't be stuck in the wall!");
+            assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nYou shouldn't be stuck in the wall!");
         }
     }
 

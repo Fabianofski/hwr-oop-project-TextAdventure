@@ -8,31 +8,36 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.io.*;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class VersatileObjectsTest {
 
+    private Player player;
+    private Ghost ghost;
+    private IIOHandler ioHandler;
+    @BeforeEach
+    void setUp() {
+        ByteArrayInputStream input = new ByteArrayInputStream("Nothing".getBytes());
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+        ioHandler = new IOHandler(input, new PrintStream(output));
+
+        FixedObject[][] testLevel = new FixedObject[9][9];
+        for (int x = 0; x < 9; x++) {
+            for (int y = 0; y < 9; y++) {
+                testLevel[x][y] = new Nothing(ioHandler);
+            }
+        }
+        Game game = new Game(testLevel, ioHandler, new Position(), new Position());
+
+        player = game.getPlayer();
+        ghost = game.getGhost();
+    }
+
     @Nested
     class GhostTests{
-        private Player player;
-        private Ghost ghost;
-        private IOutputBuffer outputBuffer;
-
-        @BeforeEach
-        void beforeEach() {
-            outputBuffer = new OutputBuffer();
-            FixedObject[][] testLevel = new FixedObject[9][9];
-            for (int x = 0; x < 9; x++) {
-                for (int y = 0; y < 9; y++) {
-                    testLevel[x][y] = new Nothing(outputBuffer);
-                }
-            }
-            Game game = new Game(testLevel, new OutputBuffer(), new Position(), new Position());
-
-            player = game.getPlayer();
-            ghost = game.getGhost();
-        }
-
         @Test
         void Ghost_moveByAmount_movesToNewPosition() {
             Position amount = new Position(3,3);
@@ -66,25 +71,6 @@ public class VersatileObjectsTest {
 
     @Nested
     class PlayerTests{
-        private Player player;
-        private Ghost ghost;
-        private IOutputBuffer outputBuffer;
-
-        @BeforeEach
-        void beforeEach() {
-            outputBuffer = new OutputBuffer();
-
-            FixedObject[][] testLevel = new FixedObject[9][9];
-            for (int x = 0; x < 9; x++) {
-                for (int y = 0; y < 9; y++) {
-                    testLevel[x][y] = new Nothing(outputBuffer);
-                }
-            }
-            Game game = new Game(testLevel, new OutputBuffer(), new Position(), new Position());
-
-            player = game.getPlayer();
-            ghost = game.getGhost();
-        }
 
         @Test
         void Player_moveByPositionAmount_movesToNewPosition() {

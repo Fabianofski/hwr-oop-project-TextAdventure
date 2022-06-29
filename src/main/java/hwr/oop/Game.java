@@ -10,7 +10,7 @@ public class Game {
     private int fieldSize;
     private Player player;
     private Ghost ghost;
-    private IOutputBuffer outputBuffer;
+    private IIOHandler ioHandler;
 
     public Player getPlayer() {
         return player;
@@ -24,34 +24,34 @@ public class Game {
         return fieldSize;
     }
 
-    public Game(FixedObject[][] level, IOutputBuffer outputBuffer, Position playerPos, Position ghostPos) {
+    public Game(FixedObject[][] level, IIOHandler ioHandler, Position playerPos, Position ghostPos) {
         this.fieldSize = level.length;
-        this.outputBuffer = outputBuffer;
+        this.ioHandler = ioHandler;
         this.gameField = level;
         this.player = new Player(playerPos, this);
         this.ghost = new Ghost(ghostPos, player);
 
-        writeGameStateToOutputBuffer();
+        writeGameStateToIOHandler();
     }
 
     public void proceed(String direction){
         player.turn(direction.equals("Right"));
-        writeOutputBuffer();
+        writeIOHandler();
     }
 
     public void proceed(int moveAmount){
         player.moveByAmount(moveAmount);
-        writeOutputBuffer();
+        writeIOHandler();
     }
 
-    private void writeOutputBuffer() {
-        writeGameStateToOutputBuffer();
+    private void writeIOHandler() {
+        writeGameStateToIOHandler();
         Position playerPos = player.getPosition();
         FixedObject fixedObject = gameField[playerPos.x][playerPos.y];
-        fixedObject.writeEventOutputBuffer();
+        fixedObject.writeEventIOHandler();
     }
 
-    private void writeGameStateToOutputBuffer(){
+    private void writeGameStateToIOHandler(){
         StringBuilder GameState = new StringBuilder();
         GameState.append("0123456789\n");
         for (int y = 0; y < fieldSize; y++) {
@@ -66,6 +66,6 @@ public class Game {
             }
             GameState.append("\n");
         }
-        outputBuffer.writeToOutputBuffer(GameState.toString());
+        ioHandler.addToOutputBuffer(GameState.toString());
     }
 }

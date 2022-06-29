@@ -1,14 +1,13 @@
 package hwr.oop.gameobjects.fixed;
 
-import hwr.oop.IOutputBuffer;
-import hwr.oop.Position;
+import hwr.oop.IIOHandler;
 
 public class NPC implements FixedObject {
 
-    IOutputBuffer outputBuffer;
+    IIOHandler ioHandler;
 
-    public NPC(IOutputBuffer outputBuffer) {
-        this.outputBuffer = outputBuffer;
+    public NPC(IIOHandler ioHandler) {
+        this.ioHandler = ioHandler;
     }
 
     @Override
@@ -17,7 +16,9 @@ public class NPC implements FixedObject {
     }
 
     @Override
-    public void writeEventOutputBuffer() {
-        outputBuffer.writeToOutputBuffer("\nTalking to NPC.");
+    public void writeEventIOHandler() {
+        String response = ioHandler.requestStringInput("\nWhats popping?");
+        if(response.equals("Nothing")) ioHandler.addToOutputBuffer("\nOk.");
+        else ioHandler.addToOutputBuffer("\nYep.");
     }
 }

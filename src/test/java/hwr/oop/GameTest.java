@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.io.*;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class GameTest {
@@ -14,25 +16,29 @@ public class GameTest {
     @Nested
     class GameTests{
         Game game;
-        IOutputBuffer outputBuffer;
+        IIOHandler ioHandler;
 
         @BeforeEach
         void setUp() {
-            outputBuffer = new OutputBuffer();
+            ByteArrayInputStream input = new ByteArrayInputStream("Nothing".getBytes());
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+            ioHandler = new IOHandler(input, new PrintStream(output));
+
             FixedObject[][] testLevel = new FixedObject[9][9];
             for (int x = 0; x < 9; x++) {
                 for (int y = 0; y < 9; y++) {
-                    testLevel[x][y] = new Nothing(outputBuffer);
+                    testLevel[x][y] = new Nothing(ioHandler);
                 }
             }
-            testLevel[5][6] = new Door(outputBuffer);
+            testLevel[5][6] = new Door(ioHandler);
             Position playerPos = new Position(5, 5);
             Position ghostPos = new Position(2, 3);
-            game = new Game(testLevel, outputBuffer, playerPos, ghostPos);
+            game = new Game(testLevel, ioHandler, playerPos, ghostPos);
         }
 
         @Test
-        void proceed_outputBuffer_isFilledWithStartingField() {
+        void proceed_ioHandler_isFilledWithStartingField() {
             String expectedGameState =
                     "0123456789\n" +
                     "1         \n" +
@@ -45,7 +51,7 @@ public class GameTest {
                     "8         \n" +
                     "9         \n";
 
-            String printed = outputBuffer.getOutputBuffer();
+            String printed = ioHandler.getOutputBuffer();
             assertThat(printed).isEqualTo(expectedGameState);
         }
 
@@ -63,11 +69,11 @@ public class GameTest {
                     "8         \n" +
                     "9         \n" +
                     "\nYou don't have a Key to open the door.";
-            outputBuffer.clearOutputBuffer();
+            ioHandler.clearOutputBuffer();
 
             game.proceed(1);
 
-            String printed = outputBuffer.getOutputBuffer();
+            String printed = ioHandler.getOutputBuffer();
             assertThat(printed).isEqualTo(expectedGameState);
         }
 
@@ -85,11 +91,11 @@ public class GameTest {
                             "8         \n" +
                             "9         \n" +
                             "\nNothing happens!";
-            outputBuffer.clearOutputBuffer();
+            ioHandler.clearOutputBuffer();
 
             game.proceed("Right");
 
-            String printed = outputBuffer.getOutputBuffer();
+            String printed = ioHandler.getOutputBuffer();
             assertThat(printed).isEqualTo(expectedGameState);
         }
     }

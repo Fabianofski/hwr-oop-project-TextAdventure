@@ -1,15 +1,13 @@
 package hwr.oop.gameobjects.fixed;
 
-import hwr.oop.IOutputBuffer;
-import hwr.oop.OutputBuffer;
-import hwr.oop.Position;
+import hwr.oop.IIOHandler;
 
 public class Wall implements FixedObject {
 
-    IOutputBuffer outputBuffer;
+    IIOHandler ioHandler;
 
-    public Wall(IOutputBuffer outputBuffer) {
-        this.outputBuffer = outputBuffer;
+    public Wall(IIOHandler ioHandler) {
+        this.ioHandler = ioHandler;
     }
 
     @Override
@@ -19,7 +17,7 @@ public class Wall implements FixedObject {
 
 
     @Override
-    public void writeEventOutputBuffer() {
-        outputBuffer.writeToOutputBuffer("\nYou shouldn't be stuck in the wall!");
+    public void writeEventIOHandler() {
+        ioHandler.addToOutputBuffer("\nYou shouldn't be stuck in the wall!");
     }
 }
