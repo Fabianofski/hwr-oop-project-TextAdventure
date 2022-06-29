@@ -37,6 +37,16 @@ public class Position {
         return y == position.y && x == position.x;
     }
 
+    public int distance(Position two){
+        return Math.abs(getXdistance(two))+Math.abs(getYdistance(two));
+    }
+    public int getYdistance(Position pos){
+        return this.y-pos.y;
+    }
+    public int getXdistance(Position pos){
+        return this.x-pos.x;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(y, x);

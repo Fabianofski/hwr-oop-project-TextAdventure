@@ -1,5 +1,6 @@
 package hwr.oop.gameobjects.versatile;
 
+import hwr.oop.Game;
 import hwr.oop.Position;
 
 public class Ghost implements VersatileObject {
@@ -29,8 +30,29 @@ public class Ghost implements VersatileObject {
         return "G";
     }
 
+    public void setStartPosition(Position amountPos){
+        this.position = amountPos;
+    }
+
+
     @Override
-    public void moveByAmount(Position amount) {
-        position.add(amount);
+    public void moveByAmount(Position playerpos) {
+        if(Math.abs(this.getPosition().getYdistance(playerpos))<Math.abs(this.getPosition().getXdistance(playerpos))){
+            if(this.getPosition().getXdistance(playerpos)>0){
+                this.position= new Position(this.getPosition().getX()-1,this.position.getY());
+            }
+            else{
+                this.position= new Position(this.getPosition().getX()+1,this.position.getY());
+            }
+        }
+        else{
+            if(this.getPosition().getYdistance(playerpos)>0){
+                this.position = new Position(this.getPosition().getX(), this.position.getY()-1);
+            }
+            else {
+                this.position = new Position(this.getPosition().getX(), this.position.getY()+1);
+            }
+        }
+
     }
 }

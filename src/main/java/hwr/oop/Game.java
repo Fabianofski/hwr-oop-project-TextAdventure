@@ -41,6 +41,8 @@ public class Game {
 
     public void proceed(int moveAmount){
         player.moveByAmount(moveAmount);
+        player.getPosition();
+        ghost.moveByAmount(player.getPosition());
         writeIOHandler();
     }
 

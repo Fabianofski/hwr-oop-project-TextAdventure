@@ -124,5 +124,15 @@ public class GameTest {
             position.add(new Position(1,1));
             assertThat(position).isEqualTo(new Position(1,1));
         }
+
+        @Test
+        void Position_distance(){
+            Position position = new Position(1,1);
+            int distanceA = position.distance(new Position(2,2));
+            assertThat(distanceA).isEqualTo(2);
+            int distanceB = position.distance(new Position(5,6));
+            assertThat(distanceB).isEqualTo(9);
+
+        }
     }
 }

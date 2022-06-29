@@ -67,6 +67,16 @@ public class VersatileObjectsTest {
             ghost.hitPlayerAndDealDamage();
             assertThat(lives - 1).isEqualTo(player.getLives());
         }
+
+        @Test
+        void Ghost_goesTowardsPlayer(){
+            player.moveByAmount(new Position(0,0));
+            ghost.setStartPosition(new Position(3,0));
+            ghost.moveByAmount(player.getPosition());
+            boolean move = (ghost.getPosition().getX() == 2&ghost.getPosition().getY()==0);
+            assertThat(move).isTrue();
+
+        }
     }
 
     @Nested
