@@ -14,7 +14,7 @@ public class Door implements FixedObject {
     }
 
     @Override
-    public void writeEventIOHandler() {
+    public void writeEventToIOHandler() {
         ioHandler.addToOutputBuffer("\nYou don't have a Key to open the door.");
     }
 }

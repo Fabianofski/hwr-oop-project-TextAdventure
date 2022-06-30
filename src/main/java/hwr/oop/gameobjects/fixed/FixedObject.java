@@ -2,5 +2,5 @@ package hwr.oop.gameobjects.fixed;
 
 public interface FixedObject {
     String getObjectIcon();
-    void writeEventIOHandler();
+    void writeEventToIOHandler();
 }

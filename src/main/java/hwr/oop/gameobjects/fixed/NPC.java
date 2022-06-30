@@ -16,7 +16,7 @@ public class NPC implements FixedObject {
     }
 
     @Override
-    public void writeEventIOHandler() {
+    public void writeEventToIOHandler() {
         String response = ioHandler.requestStringInput("\nWhats popping?");
         if(response.equals("Nothing")) ioHandler.addToOutputBuffer("\nOk.");
         else ioHandler.addToOutputBuffer("\nYep.");

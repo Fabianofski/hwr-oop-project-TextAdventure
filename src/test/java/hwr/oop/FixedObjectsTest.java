@@ -44,7 +44,7 @@ public class FixedObjectsTest {
 
         @Test
         void door_writeEventIOHandler_writesToIOHandler() {
-            door.writeEventIOHandler();
+            door.writeEventToIOHandler();
 
             assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nYou don't have a Key to open the door.");
         }
@@ -67,14 +67,14 @@ public class FixedObjectsTest {
         }
 
         @Test
-        void nothing_getObjectIcon_iconIsEmptyString() {
+        void nothing_getObjectIcon_iconIsUnderscore() {
             String icon = nothing.getObjectIcon();
-            assertThat(icon).isEqualTo(" ");
+            assertThat(icon).isEqualTo("_");
         }
 
         @Test
         void nothing_writeEventIOHandler_writesToIOHandler() {
-            nothing.writeEventIOHandler();
+            nothing.writeEventToIOHandler();
 
             assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nNothing happens!");
         }
@@ -104,16 +104,22 @@ public class FixedObjectsTest {
 
         @Test
         void npc_writeEventIOHandlerFirstResponse_writesToIOHandler() {
-            npc.writeEventIOHandler();
+            npc.writeEventToIOHandler();
 
             assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nOk.");
         }
 
         @Test
         void npc_writeEventIOHandlerSecondResponse_writesToIOHandler() {
-            npc.writeEventIOHandler();
+            ByteArrayInputStream input = new ByteArrayInputStream("Everything.".getBytes());
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
 
-            assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nOk.");
+            ioHandler = new IOHandler(input, new PrintStream(output));
+            npc = new NPC(ioHandler);
+
+            npc.writeEventToIOHandler();
+
+            assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nYep.");
         }
     }
     @Nested
@@ -141,7 +147,7 @@ public class FixedObjectsTest {
 
         @Test
         void wall_writeEventIOHandler_writesToIOHandler() {
-            wall.writeEventIOHandler();
+            wall.writeEventToIOHandler();
 
             assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nYou shouldn't be stuck in the wall!");
         }

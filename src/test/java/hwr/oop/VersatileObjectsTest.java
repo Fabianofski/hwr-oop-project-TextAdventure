@@ -39,10 +39,24 @@ public class VersatileObjectsTest {
     @Nested
     class GhostTests{
         @Test
-        void Ghost_moveByAmount_movesToNewPosition() {
-            Position amount = new Position(3,3);
-            ghost.setStartPosition(amount);
-            assertThat(ghost.getPosition()).isEqualTo(amount);
+        void Ghost_setStartPosition_setsStartPosition() {
+            Position startPos = new Position(3,3);
+            ghost.setStartPosition(startPos);
+            assertThat(ghost.getPosition()).isEqualTo(startPos);
+        }
+
+        @Test
+        void Ghost_moveByAmount_movesByAmount(){
+            Position startPos = new Position(3,3);
+            ghost.setStartPosition(startPos);
+
+            Position amount = new Position(1,1);
+            ghost.moveByAmount(amount);
+
+            Position expectedPos = new Position(4,4);
+            Position ghostPos = ghost.getPosition();
+
+            assertThat(ghostPos).isEqualTo(expectedPos);
         }
 
         @Test
@@ -69,13 +83,47 @@ public class VersatileObjectsTest {
         }
 
         @Test
-        void Ghost_goesTowardsPlayer(){
-            player.moveByAmount(new Position(0,0));
-            ghost.setStartPosition(new Position(3,0));
-            ghost.moveByAmount(player.getPosition());
-            boolean move = (ghost.getPosition().getX() == 2&ghost.getPosition().getY()==0);
-            assertThat(move).isTrue();
+        void Ghost_goesLeftTowardsPosition(){
+            ghost.setStartPosition(new Position(5,0));
+            ghost.moveTowardsPosition(new Position(3,0));
 
+            Position ghostPos = ghost.getPosition();
+            Position expectedPos = new Position(4,0);
+
+            assertThat(ghostPos).isEqualTo(expectedPos);
+        }
+
+        @Test
+        void Ghost_goesRightTowardsPosition(){
+            ghost.setStartPosition(new Position(3,0));
+            ghost.moveTowardsPosition(new Position(5,0));
+
+            Position ghostPos = ghost.getPosition();
+            Position expectedPos = new Position(4,0);
+
+            assertThat(ghostPos).isEqualTo(expectedPos);
+        }
+
+        @Test
+        void Ghost_goesUpTowardsPlayer(){
+            ghost.setStartPosition(new Position(0,5));
+            ghost.moveTowardsPosition(new Position(0,3));
+
+            Position ghostPos = ghost.getPosition();
+            Position expectedPos = new Position(0,4);
+
+            assertThat(ghostPos).isEqualTo(expectedPos);
+        }
+
+        @Test
+        void Ghost_goesDownTowardsPlayer(){
+            ghost.setStartPosition(new Position(0,3));
+            ghost.moveTowardsPosition(new Position(0,5));
+
+            Position ghostPos = ghost.getPosition();
+            Position expectedPos = new Position(0,4);
+
+            assertThat(ghostPos).isEqualTo(expectedPos);
         }
     }
 

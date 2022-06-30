@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="TextAdventureTest" type="JUnit" factoryName="JUnit">
-    <module name="project" />
+    <module name="hwr-oop-project-template" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="hwr.oop.*" />

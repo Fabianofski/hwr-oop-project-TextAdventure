@@ -42,21 +42,18 @@ public class Game {
     public void proceed(int moveAmount){
         player.moveByAmount(moveAmount);
         player.getPosition();
-        ghost.moveByAmount(player.getPosition());
+        ghost.moveTowardsPosition(player.getPosition());
         writeIOHandler();
     }
     public boolean gameOver(){
-        if(ghost.ghostIsAtPlayer()){
-            return true;
-        }
-        else{return false;}
+        return ghost.ghostIsAtPlayer();
     }
 
     private void writeIOHandler() {
         writeGameStateToIOHandler();
         Position playerPos = player.getPosition();
         FixedObject fixedObject = gameField[playerPos.x][playerPos.y];
-        fixedObject.writeEventIOHandler();
+        fixedObject.writeEventToIOHandler();
     }
 
     private void writeGameStateToIOHandler(){

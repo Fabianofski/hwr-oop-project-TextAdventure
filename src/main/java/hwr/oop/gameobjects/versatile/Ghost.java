@@ -1,6 +1,5 @@
 package hwr.oop.gameobjects.versatile;
 
-import hwr.oop.Game;
 import hwr.oop.Position;
 
 public class Ghost implements VersatileObject {
@@ -36,9 +35,13 @@ public class Ghost implements VersatileObject {
 
 
     @Override
-    public void moveByAmount(Position playerpos) {
-        if(Math.abs(this.getPosition().getYdistance(playerpos))<Math.abs(this.getPosition().getXdistance(playerpos))){
-            if(this.getPosition().getXdistance(playerpos)>0){
+    public void moveByAmount(Position amount) {
+        position.add(amount);
+    }
+
+    public void moveTowardsPosition(Position playerPos){
+        if(Math.abs(this.getPosition().getYdistance(playerPos))<Math.abs(this.getPosition().getXdistance(playerPos))){
+            if(this.getPosition().getXdistance(playerPos)>0){
                 this.position= new Position(this.getPosition().getX()-1,this.position.getY());
             }
             else{
@@ -46,13 +49,12 @@ public class Ghost implements VersatileObject {
             }
         }
         else{
-            if(this.getPosition().getYdistance(playerpos)>0){
+            if(this.getPosition().getYdistance(playerPos)>0){
                 this.position = new Position(this.getPosition().getX(), this.position.getY()-1);
             }
             else {
                 this.position = new Position(this.getPosition().getX(), this.position.getY()+1);
             }
         }
-
     }
 }
