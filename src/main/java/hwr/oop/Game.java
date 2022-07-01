@@ -35,21 +35,21 @@ public class Game {
     }
 
     public void proceed(String direction){
-        player.turn(direction.equals("Right"));
-        writeIOHandler();
+        boolean turnRight = direction.equals("Right");
+        player.turn(turnRight);
+        writeToIOHandler();
     }
 
     public void proceed(int moveAmount){
         player.moveByAmount(moveAmount);
-        player.getPosition();
         ghost.moveTowardsPosition(player.getPosition());
-        writeIOHandler();
+        writeToIOHandler();
     }
     public boolean gameOver(){
         return ghost.ghostIsAtPlayer();
     }
 
-    private void writeIOHandler() {
+    private void writeToIOHandler() {
         writeGameStateToIOHandler();
         Position playerPos = player.getPosition();
         FixedObject fixedObject = gameField[playerPos.x][playerPos.y];

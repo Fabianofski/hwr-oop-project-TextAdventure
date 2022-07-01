@@ -37,14 +37,14 @@ public class Position {
         return y == position.y && x == position.x;
     }
 
-    public int distance(Position two){
-        return Math.abs(getXdistance(two))+Math.abs(getYdistance(two));
+    public int distance(Position pos){
+        return Math.abs(getXDistance(pos)) + Math.abs(getYDistance(pos));
     }
-    public int getYdistance(Position pos){
-        return this.y-pos.y;
+    public int getYDistance(Position pos){
+        return this.y - pos.y;
     }
-    public int getXdistance(Position pos){
-        return this.x-pos.x;
+    public int getXDistance(Position pos){
+        return this.x - pos.x;
     }
 
     @Override

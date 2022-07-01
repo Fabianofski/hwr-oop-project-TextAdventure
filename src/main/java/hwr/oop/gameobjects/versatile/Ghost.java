@@ -3,7 +3,7 @@ package hwr.oop.gameobjects.versatile;
 import hwr.oop.Position;
 
 public class Ghost implements VersatileObject {
-    private Position position = new Position();
+    private Position position;
     private Player player;
 
     public Ghost(Position position, Player player) {
@@ -40,21 +40,30 @@ public class Ghost implements VersatileObject {
     }
 
     public void moveTowardsPosition(Position playerPos){
-        if(Math.abs(this.getPosition().getYdistance(playerPos))<Math.abs(this.getPosition().getXdistance(playerPos))){
-            if(this.getPosition().getXdistance(playerPos)>0){
-                this.position= new Position(this.getPosition().getX()-1,this.position.getY());
-            }
-            else{
-                this.position= new Position(this.getPosition().getX()+1,this.position.getY());
-            }
+        int yDistance = position.getYDistance(playerPos);
+        int xDistance = position.getXDistance(playerPos);
+
+        if(Math.abs(xDistance) > Math.abs(yDistance))
+            moveAlongXAxis(xDistance);
+        else
+            moveAlongYAxis(yDistance);
+    }
+
+    private void moveAlongYAxis(int yDistance) {
+        if(yDistance > 0){
+            position.add(new Position(0,-1));
+        }
+        else {
+            position.add(new Position(0,1));
+        }
+    }
+
+    private void moveAlongXAxis(int xDistance) {
+        if(xDistance > 0){
+            position.add(new Position(-1,0));
         }
         else{
-            if(this.getPosition().getYdistance(playerPos)>0){
-                this.position = new Position(this.getPosition().getX(), this.position.getY()-1);
-            }
-            else {
-                this.position = new Position(this.getPosition().getX(), this.position.getY()+1);
-            }
+            position.add(new Position(1,0));
         }
     }
 }
