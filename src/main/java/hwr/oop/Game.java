@@ -62,10 +62,10 @@ public class Game {
         for (int y = 0; y < fieldSize; y++) {
             GameState.append(y + 1+"  ");
             for (int x = 0; x < fieldSize; x++) {
-                if (Objects.equals(player.getPosition(), new Position(x, y)))
-                    GameState.append(player.getObjectIcon()+"  ");
-                else if (Objects.equals(ghost.getPosition(), new Position(x, y)))
+                if (Objects.equals(ghost.getPosition(), new Position(x, y)))
                     GameState.append(ghost.getObjectIcon()+"  ");
+                else if (Objects.equals(player.getPosition(), new Position(x, y)))
+                    GameState.append(player.getObjectIcon()+"  ");
                 else
                     GameState.append(gameField[x][y].getObjectIcon()+"  ");
             }
