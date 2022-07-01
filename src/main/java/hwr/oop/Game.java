@@ -24,12 +24,12 @@ public class Game {
         return fieldSize;
     }
 
-    public Game(FixedObject[][] level, IIOHandler ioHandler, Position playerPos, Position ghostPos) {
+    public Game(FixedObject[][] level, IIOHandler ioHandler, Player player, Ghost ghost) {
         this.fieldSize = level.length;
         this.ioHandler = ioHandler;
         this.gameField = level;
-        this.player = new Player(playerPos, this);
-        this.ghost = new Ghost(ghostPos, player);
+        this.player = player;
+        this.ghost = ghost;
 
         writeGameStateToIOHandler();
     }

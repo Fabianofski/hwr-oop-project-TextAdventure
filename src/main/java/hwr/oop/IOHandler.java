@@ -2,6 +2,7 @@ package hwr.oop;
 
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class IOHandler implements IIOHandler {
@@ -36,14 +37,18 @@ public class IOHandler implements IIOHandler {
     public String requestStringInput(String request) {
         addToOutputBuffer(request);
         writeOutputAndClearBuffer();
-        return scanner.next();
+        return scanner.nextLine();
     }
 
     @Override
     public int requestIntegerInput(String request) {
         addToOutputBuffer(request);
         writeOutputAndClearBuffer();
-        return scanner.nextInt();
+        int integer = scanner.nextInt();
+        try{
+            scanner.nextLine(); // Clear new Line from inputBuffer
+        } catch (NoSuchElementException ignored){}
+        return integer;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package hwr.oop;
 
 import hwr.oop.gameobjects.fixed.*;
+import hwr.oop.gameobjects.versatile.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ public class FixedObjectsTest {
     IIOHandler ioHandler;
     @BeforeEach
     void setUp() {
-        ByteArrayInputStream input = new ByteArrayInputStream("Nothing".getBytes());
+        ByteArrayInputStream input = new ByteArrayInputStream("TestResponse".getBytes());
         ByteArrayOutputStream output = new ByteArrayOutputStream();
 
         ioHandler = new IOHandler(input, new PrintStream(output));
@@ -82,15 +83,17 @@ public class FixedObjectsTest {
     @Nested
     class NPCTests{
         NPC npc;
+        Player player;
 
         @BeforeEach
         void setUp() {
-            npc = new NPC(ioHandler);
+            player = new Player(new Position(), 9);
+            npc = new NPC(ioHandler, player);
         }
 
         @Test
         void npc_isFieldObject(){
-            npc = new NPC(ioHandler);
+            npc = new NPC(ioHandler, player);
             assertThat(npc)
                     .isInstanceOf(FixedObject.class)
                     .isInstanceOf(NPC.class);
@@ -106,20 +109,23 @@ public class FixedObjectsTest {
         void npc_writeEventIOHandlerFirstResponse_writesToIOHandler() {
             npc.writeEventToIOHandler();
 
-            assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nOk.");
+            assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nYep.");
         }
 
         @Test
-        void npc_writeEventIOHandlerSecondResponse_writesToIOHandler() {
-            ByteArrayInputStream input = new ByteArrayInputStream("Everything.".getBytes());
+        void npc_writeEventIOHandlerSecondResponse_writesToIOHandlerAndPlayerHasKey() {
+            ByteArrayInputStream input = new ByteArrayInputStream("Give Key!".getBytes());
             ByteArrayOutputStream output = new ByteArrayOutputStream();
 
             ioHandler = new IOHandler(input, new PrintStream(output));
-            npc = new NPC(ioHandler);
+            npc = new NPC(ioHandler, player);
 
             npc.writeEventToIOHandler();
 
-            assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nYep.");
+            assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nHere is your key!");
+
+            boolean playerHasKey = player.hasKey();
+            assertThat(playerHasKey).isTrue();
         }
     }
     @Nested

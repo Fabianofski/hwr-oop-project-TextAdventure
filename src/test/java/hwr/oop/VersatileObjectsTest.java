@@ -30,10 +30,11 @@ public class VersatileObjectsTest {
                 testLevel[x][y] = new Nothing(ioHandler);
             }
         }
-        Game game = new Game(testLevel, ioHandler, new Position(), new Position());
 
-        player = game.getPlayer();
-        ghost = game.getGhost();
+        Position playerPos = new Position();
+        player = new Player(playerPos, testLevel.length);
+        Position ghostPos = new Position();
+        ghost = new Ghost(ghostPos, player);
     }
 
     @Nested

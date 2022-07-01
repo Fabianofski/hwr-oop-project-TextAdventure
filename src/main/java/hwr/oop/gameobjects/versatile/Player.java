@@ -5,7 +5,7 @@ import hwr.oop.Position;
 
 public class Player implements VersatileObject {
     private Position position;
-    private Game game;
+    private int fieldSize;
     private Position[] viewDirections;
     private int currentViewDirection = 0;
     private boolean hasKeyInInventory;
@@ -16,9 +16,9 @@ public class Player implements VersatileObject {
 
     private int lives;
 
-    public Player(Position position, Game game){
+    public Player(Position position, int fieldSize){
         this.position = position;
-        this.game = game;
+        this.fieldSize = fieldSize;
         this.lives = 3;
         viewDirections = new Position[]{
                 new Position(0,1),
@@ -77,7 +77,7 @@ public class Player implements VersatileObject {
 
     @Override
     public void moveByAmount(Position amountPos) {
-        int size = game.getFieldSize() - 1;
+        int size = fieldSize - 1;
         position.add(amountPos);
         position = new Position(clamp(position.getX(), 0, size), clamp(position.getY(), 0, size));
     }

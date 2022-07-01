@@ -3,6 +3,8 @@ package hwr.oop;
 import hwr.oop.gameobjects.fixed.Door;
 import hwr.oop.gameobjects.fixed.FixedObject;
 import hwr.oop.gameobjects.fixed.Nothing;
+import hwr.oop.gameobjects.versatile.Ghost;
+import hwr.oop.gameobjects.versatile.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -32,9 +34,13 @@ public class GameTest {
                 }
             }
             testLevel[5][6] = new Door(ioHandler);
+
             Position playerPos = new Position(5, 5);
+            Player player = new Player(playerPos, testLevel.length);
             Position ghostPos = new Position(2, 3);
-            game = new Game(testLevel, ioHandler, playerPos, ghostPos);
+            Ghost ghost = new Ghost(ghostPos, player);
+
+            game = new Game(testLevel, ioHandler, player, ghost);
         }
 
         @Test
