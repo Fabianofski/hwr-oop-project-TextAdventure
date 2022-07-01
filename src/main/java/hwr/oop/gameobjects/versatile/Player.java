@@ -8,6 +8,7 @@ public class Player implements VersatileObject {
     private Game game;
     private Position[] viewDirections;
     private int currentViewDirection = 0;
+    private boolean hasKeyInInventory;
 
     public int getLives() {
         return lives;
@@ -25,6 +26,14 @@ public class Player implements VersatileObject {
                 new Position(0,-1),
                 new Position(1,0)
         };
+    }
+
+    public void giveKey(){
+        hasKeyInInventory = true;
+    }
+
+    public boolean hasKey(){
+        return hasKeyInInventory;
     }
 
     public void harmPlayer(int damage){

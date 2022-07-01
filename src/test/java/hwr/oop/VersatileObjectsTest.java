@@ -210,6 +210,14 @@ public class VersatileObjectsTest {
             icon = player.getObjectIcon();
             assertThat(icon).isEqualTo("<");
         }
+
+        @Test
+        void Player_givePlayerKey_playerNowHasKey() {
+            player.giveKey();
+            boolean hasKey = player.hasKey();
+
+            assertThat(hasKey).isTrue();
+        }
     }
 
 }
