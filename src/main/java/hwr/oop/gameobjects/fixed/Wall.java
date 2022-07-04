@@ -1,6 +1,9 @@
 package hwr.oop.gameobjects.fixed;
 
+import hwr.oop.Game;
 import hwr.oop.IIOHandler;
+import hwr.oop.Position;
+import hwr.oop.gameobjects.versatile.Player;
 
 public class Wall implements FixedObject {
 

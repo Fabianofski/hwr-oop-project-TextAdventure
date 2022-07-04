@@ -1,6 +1,7 @@
 package hwr.oop.gameobjects.versatile;
 
 import hwr.oop.Game;
+import hwr.oop.IOHandler;
 import hwr.oop.Position;
 
 public class Player implements VersatileObject {
@@ -9,6 +10,7 @@ public class Player implements VersatileObject {
     private Position[] viewDirections;
     private int currentViewDirection = 0;
     private boolean hasKeyInInventory;
+    private Position lastposition;
 
     public int getLives() {
         return lives;
@@ -18,6 +20,7 @@ public class Player implements VersatileObject {
 
     public Player(Position position, int fieldSize){
         this.position = position;
+        this.lastposition = position;
         this.fieldSize = fieldSize;
         this.lives = 3;
         viewDirections = new Position[]{
@@ -55,8 +58,10 @@ public class Player implements VersatileObject {
     }
 
     @Override
-    public Position getPosition() {
-        return position;
+    public Position getPosition() { return position;}
+
+    public Position getlastPosition() {
+        return lastposition;
     }
 
     @Override
@@ -70,6 +75,7 @@ public class Player implements VersatileObject {
     }
 
     public void moveByAmount(int amount){
+        lastposition = position;
         Position viewDirection = viewDirections[currentViewDirection];
         Position pos = new Position(viewDirection.getX() * amount, viewDirection.getY() * amount);
         moveByAmount(pos);
@@ -80,6 +86,9 @@ public class Player implements VersatileObject {
         int size = fieldSize - 1;
         position.add(amountPos);
         position = new Position(clamp(position.getX(), 0, size), clamp(position.getY(), 0, size));
+    }
+    public void setPosition(Position position){
+        this.position=new Position(position.getX(), position.getY());
     }
 
     private int clamp(int val, int min, int max) {

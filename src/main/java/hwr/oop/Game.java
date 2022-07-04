@@ -11,7 +11,7 @@ public class Game {
     private Player player;
     private Ghost ghost;
     private IIOHandler ioHandler;
-
+    private boolean runinwall;
     public Player getPlayer() {
         return player;
     }
@@ -41,12 +41,33 @@ public class Game {
     }
 
     public void proceed(int moveAmount){
+        Position last = player.getPosition();
+        int x = last.getX();
+        int y = last.getY();
         player.moveByAmount(moveAmount);
+        checkIfWall(x, y);
         ghost.moveTowardsPosition(player.getPosition());
         writeToIOHandler();
+
     }
+
+    private void checkIfWall(int x, int y) {
+        Position playerPos = player.getPosition();
+        FixedObject fixedObject = gameField[playerPos.x][playerPos.y];
+        if(fixedObject.getObjectIcon()=="#"){
+            player.setPosition(new Position(x, y));
+            runinwall=true;
+        }
+    }
+
     public boolean gameOver(){
-        return ghost.ghostIsAtPlayer();
+        if(player.getLives()==0|ghost.ghostIsAtPlayer()){
+            return true;
+        }
+        else{
+            return false;
+        }
+
     }
 
     private void writeToIOHandler() {
@@ -54,6 +75,12 @@ public class Game {
         Position playerPos = player.getPosition();
         FixedObject fixedObject = gameField[playerPos.x][playerPos.y];
         fixedObject.writeEventToIOHandler();
+        if(runinwall){
+            player.harmPlayer(1);
+            ioHandler.addToOutputBuffer("\n You can't run against the Wall! It hurts!" +
+             "\nDamage taken: 1\nLife left:"+player.getLives());
+        }
+
     }
 
     private void writeGameStateToIOHandler(){
@@ -73,4 +100,5 @@ public class Game {
         }
         ioHandler.addToOutputBuffer(GameState.toString());
     }
+
 }
