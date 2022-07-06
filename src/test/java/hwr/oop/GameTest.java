@@ -19,6 +19,7 @@ public class GameTest {
     class GameTests{
         Game game;
         IIOHandler ioHandler;
+        Player player;
 
         @BeforeEach
         void setUp() {
@@ -33,48 +34,64 @@ public class GameTest {
                     testLevel[x][y] = new Nothing(ioHandler);
                 }
             }
-            testLevel[5][6] = new Door(ioHandler);
 
             Position playerPos = new Position(5, 5);
-            Player player = new Player(playerPos, testLevel.length);
-            Position ghostPos = new Position(2, 3);
+            player = new Player(playerPos, testLevel.length);
+            Position ghostPos = new Position(4, 4);
             Ghost ghost = new Ghost(ghostPos, player);
+
+            testLevel[5][6] = new Door(ioHandler, player);
 
             game = new Game(testLevel, ioHandler, player, ghost);
         }
 
         @Test
-        void proceed_ioHandler_isFilledWithStartingField() {
+        void gameStart_Field() {
+            game.gameBegin();
             String expectedGameState =
             "0  1  2  3  4  5  6  7  8  9\n" +
-            "1  _  _  _  _  _  _  _  _  _  \n" +
-            "2  _  _  _  _  _  _  _  _  _  \n" +
-            "3  _  _  _  _  _  _  _  _  _  \n" +
-            "4  _  _  G  _  _  _  _  _  _  \n" +
-            "5  _  _  _  _  _  _  _  _  _  \n" +
-            "6  _  _  _  _  _  V  _  _  _  \n" +
-            "7  _  _  _  _  _  Π  _  _  _  \n" +
-            "8  _  _  _  _  _  _  _  _  _  \n" +
-            "9  _  _  _  _  _  _  _  _  _  \n";
+                    "1  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                    "2  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                    "3  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                    "4  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                    "5  ?  ?  ?  ?  G  _  _  ?  ?  \n" +
+                    "6  ?  ?  ?  ?  _  V  _  ?  ?  \n" +
+                    "7  ?  ?  ?  ?  _  H  _  ?  ?  \n" +
+                    "8  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                    "9  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                    "\n" +
+                    "------------------------------------------------\n";
 
             String printed = ioHandler.getOutputBuffer();
             assertThat(printed).isEqualTo(expectedGameState);
         }
-
+        @Test
+        void gameWasWon_ifOpenedDoor(){
+            player.setHasOpenedDoor(true);
+            assertThat(game.GameWon()).isEqualTo(true);
+        }
+        @Test
+        void gameNotWon_ifOpenedDoor(){
+            player.setHasOpenedDoor(false);
+            assertThat(game.GameWon()).isEqualTo(false);
+        }
         @Test
         void proceed_playerMovesOnDoor_isFilledWithGameFieldAndDoorEvent() {
             String expectedGameState =
                     "0  1  2  3  4  5  6  7  8  9\n" +
-                    "1  _  _  _  _  _  _  _  _  _  \n" +
-                    "2  _  _  _  _  _  _  _  _  _  \n" +
-                    "3  _  _  _  _  _  _  _  _  _  \n" +
-                    "4  _  _  _  _  _  _  _  _  _  \n" +
-                    "5  _  _  G  _  _  _  _  _  _  \n" +
-                    "6  _  _  _  _  _  _  _  _  _  \n" +
-                    "7  _  _  _  _  _  V  _  _  _  \n" +
-                    "8  _  _  _  _  _  _  _  _  _  \n" +
-                    "9  _  _  _  _  _  _  _  _  _  \n" +
-                    "\nYou don't have a Key to open the door.";
+                            "1  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                            "2  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                            "3  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                            "4  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                            "5  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                            "6  ?  ?  ?  ?  G  _  _  ?  ?  \n" +
+                            "7  ?  ?  ?  ?  _  V  _  ?  ?  \n" +
+                            "8  ?  ?  ?  ?  _  _  _  ?  ?  \n" +
+                            "9  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                            "\n" +
+                            "------------------------------------------------\n" +
+                            "\n" +
+                            "You don't have a Key to open the door.";
             ioHandler.clearOutputBuffer();
 
             game.proceed(1);
@@ -87,19 +104,20 @@ public class GameTest {
         void proceed_playerTurnsRight_isFilledWithStartingFieldAndTurnedPlayer() {
             String expectedGameState =
                     "0  1  2  3  4  5  6  7  8  9\n" +
-                    "1  _  _  _  _  _  _  _  _  _  \n" +
-                    "2  _  _  _  _  _  _  _  _  _  \n" +
-                    "3  _  _  _  _  _  _  _  _  _  \n" +
-                    "4  _  _  G  _  _  _  _  _  _  \n" +
-                    "5  _  _  _  _  _  _  _  _  _  \n" +
-                    "6  _  _  _  _  _  <  _  _  _  \n" +
-                    "7  _  _  _  _  _  Π  _  _  _  \n" +
-                    "8  _  _  _  _  _  _  _  _  _  \n" +
-                    "9  _  _  _  _  _  _  _  _  _  \n" +
-                            "\nNothing happens!";
+                            "1  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                            "2  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                            "3  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                            "4  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                            "5  ?  ?  ?  ?  G  _  _  ?  ?  \n" +
+                            "6  ?  ?  ?  ?  _  <  _  ?  ?  \n" +
+                            "7  ?  ?  ?  ?  _  H  _  ?  ?  \n" +
+                            "8  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                            "9  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                            "\n" +
+                            "------------------------------------------------\n";
             ioHandler.clearOutputBuffer();
 
-            game.proceed("Right");
+            game.proceed("1");
 
             String printed = ioHandler.getOutputBuffer();
             assertThat(printed).isEqualTo(expectedGameState);
@@ -108,7 +126,7 @@ public class GameTest {
         @Test
         void gameOver_ghostIsAtPlayer_gameIsOver() {
 
-            game.getGhost().moveByAmount(new Position(3, 2));
+            game.getGhost().setStartPosition(new Position(5,5));
             boolean gameOver = game.gameOver();
 
             assertThat(gameOver).isTrue();
@@ -119,6 +137,36 @@ public class GameTest {
             boolean gameOver = game.gameOver();
 
             assertThat(gameOver).isFalse();
+        }
+
+        @Test
+        void gameRestart_gameIsNull(){
+            game.restart();
+            assertThat(game.getGhost()).isEqualTo(null);
+        }
+
+        @Test
+        void nextLevel_Output(){
+            ioHandler.clearOutputBuffer();
+            game.nextLevel();
+            String output =
+                    "0  1  2  3  4  5  6  7  8  9\n" +
+                            "1  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                            "2  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                            "3  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                            "4  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                            "5  ?  ?  ?  ?  G  _  _  ?  ?  \n" +
+                            "6  ?  ?  ?  ?  _  V  _  ?  ?  \n" +
+                            "7  ?  ?  ?  ?  _  H  _  ?  ?  \n" +
+                            "8  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                            "9  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
+                            "\n" +
+                            "------------------------------------------------\n" +
+                            "\n" +
+                            "------------------------------------------------\n" +
+                            "You opened the door...And a new room opened before your eyes.";
+            String printed = ioHandler.getOutputBuffer();
+            assertThat(printed).isEqualTo(output);
         }
     }
 

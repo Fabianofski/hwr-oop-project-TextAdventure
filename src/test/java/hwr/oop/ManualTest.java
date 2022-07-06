@@ -1,44 +1,45 @@
 package hwr.oop;
 
-import hwr.oop.gameobjects.fixed.*;
-import hwr.oop.gameobjects.versatile.Ghost;
-import hwr.oop.gameobjects.versatile.Player;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import java.lang.reflect.InvocationTargetException;
 
 public class ManualTest {
     Game game;
     IIOHandler ioHandler;
-    Levels Level;
-
-    @BeforeEach
-    void setUp() {
-      Level = new Levels();
-      Level.Level1();
-      game = Level.getGame();
-      ioHandler = Level.getIOHandler();
-    }
+    Levels level;
 
     @Test
     @Disabled
-    void manualTestLevel1() {
+    void manualTestLevel1() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+
+        level = new Levels();
+        game = level.getLevel(1);
+        ioHandler = level.getIOHandler();
+
         while (true){
+            int i = 1;
             ioHandler.writeOutputAndClearBuffer();
+
             if(game.gameOver()){
                 ioHandler.addToOutputBuffer("The ghost killed you!\n");
                 String tryAgain = ioHandler.requestStringInput("Do you wanna try again?\n Yes/No");
-                if(tryAgain =="yes"|tryAgain == "Yes"){
-                    //nochmal starten
+                if(!(tryAgain=="2")){
+                    game.restart();
+                    game = level.getLevel(1);
+                    ioHandler.clearOutputBuffer();
                 }
-                    break;//?
+                else{
+                    break;
+                }
             }
-            String decision = ioHandler.requestStringInput("(Move/Turn)?");
 
-            if(decision.equals("Move")){
+            String decision = ioHandler.requestStringInput("(Move/Turn)?");
+            if(decision.equals("1")){
                 int amount = ioHandler.requestIntegerInput("Move how many Steps?");
-                if(amount>3){
-                    ioHandler.addToOutputBuffer("You can't make that many Steps!");
+                if(amount>3|amount<0){
+                    ioHandler.addToOutputBuffer("You can only make 1-3 Steps!");
                 }
                 else {
                     game.proceed(amount);
@@ -47,6 +48,24 @@ public class ManualTest {
                 String direction = ioHandler.requestStringInput("(Right/Left)?");
                 game.proceed(direction);
             }
+            if(game.GameWon()){
+                    String nextLevel = ioHandler.requestStringInput("You have won the Level!! Wanna go to the next Level?\n");
+                    if(!(nextLevel=="2")){
+                        i++;
+                        game = level.getLevel(i);
+                        if(game==null){
+                            ioHandler.addToOutputBuffer("You completed the game!");
+                            break;
+                        }
+                        else {
+                            game.nextLevel();
+                        }
+                    }
+                    else{
+                        break;
+                    }
+            }
         }
+
     }
 }

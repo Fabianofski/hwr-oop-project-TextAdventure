@@ -27,7 +27,7 @@ public class FixedObjectsTest {
 
         @BeforeEach
         void setUp() {
-            door = new Door(ioHandler);
+            door = new Door(ioHandler,new Player(new Position(2,3),9));
         }
 
         @Test
@@ -38,9 +38,9 @@ public class FixedObjectsTest {
         }
 
         @Test
-        void door_getObjectIcon_iconIsPi() {
+        void door_getObjectIcon_iconIs0() {
             String icon = door.getObjectIcon();
-            assertThat(icon).isEqualTo("Π");
+            assertThat(icon).isEqualTo("H");
         }
 
         @Test
@@ -49,6 +49,16 @@ public class FixedObjectsTest {
 
             assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nYou don't have a Key to open the door.");
         }
+        @Test
+        void door_Opened() {
+            Player player = new Player(new Position(2,3),9);
+            player.giveKey();
+            door = new Door(ioHandler,player);
+            door.writeEventToIOHandler();
+
+            assertThat(ioHandler.getOutputBuffer()).isEqualTo("You opened the door!");
+        }
+
     }
     @Nested
     class NothingTests{
@@ -77,7 +87,7 @@ public class FixedObjectsTest {
         void nothing_writeEventIOHandler_writesToIOHandler() {
             nothing.writeEventToIOHandler();
 
-            assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nNothing happens!");
+            assertThat(ioHandler.getOutputBuffer()).isEqualTo("");
         }
     }
     @Nested
@@ -112,7 +122,7 @@ public class FixedObjectsTest {
         }
         @Test
         void npc_Jonas_writeEventIOHandlerFirstResponse_writesToIOHandler() {
-            npc = new NPC(ioHandler,player,NpcTypes.Jonas);
+            npc = new NPC(ioHandler,player,NpcTypes.Milhouse);
             npc.writeEventToIOHandler();
             assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nWeirdo....");
         }
@@ -151,12 +161,12 @@ public class FixedObjectsTest {
             ByteArrayOutputStream output = new ByteArrayOutputStream();
 
             ioHandler = new IOHandler(input, new PrintStream(output));
-            npc = new NPC(ioHandler, player,NpcTypes.Jonas);
+            npc = new NPC(ioHandler, player,NpcTypes.Milhouse);
 
             npc.writeEventToIOHandler();
 
             assertThat(ioHandler.getOutputBuffer()).isEqualTo("\n" +
-                    "Jonas:\n" +
+                    "Milhouse:\n" +
                     "What? Wait lemme search...\n" +
                     "\n" +
                     "Oh! I have got here something!\n" +
@@ -179,7 +189,7 @@ public class FixedObjectsTest {
 
             npc.writeEventToIOHandler();
 
-            assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nMariele:\n" +
+            assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nMariel:\n" +
                     "Here is your key!\n" +
                     "\n" +
                     "You received a Key!\n" +
@@ -192,7 +202,7 @@ public class FixedObjectsTest {
         }
     }
     @Nested
-    class WallTests{
+    class WallTests {
 
         Wall wall;
 
@@ -202,7 +212,7 @@ public class FixedObjectsTest {
         }
 
         @Test
-        void wall_isFieldObject(){
+        void wall_isFieldObject() {
             assertThat(wall)
                     .isInstanceOf(FixedObject.class)
                     .isInstanceOf(Wall.class);
@@ -221,5 +231,4 @@ public class FixedObjectsTest {
             assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nYou shouldn't be stuck in the wall!");
         }
     }
-
 }

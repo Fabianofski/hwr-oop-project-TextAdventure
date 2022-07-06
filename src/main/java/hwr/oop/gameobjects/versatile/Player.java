@@ -11,6 +11,7 @@ public class Player implements VersatileObject {
     private int currentViewDirection = 0;
     private boolean hasKeyInInventory;
     private Position lastposition;
+    private boolean hasOpenedDoor;
 
     public int getLives() {
         return lives;
@@ -30,6 +31,14 @@ public class Player implements VersatileObject {
                 new Position(1,0)
         };
     }
+    public void restart(){
+        lives = 3;
+        hasKeyInInventory =false;
+        hasOpenedDoor =false;
+    }
+    public boolean getHasOpenedDoor(){return hasOpenedDoor;}
+
+    public void setHasOpenedDoor(boolean i){hasOpenedDoor=i;}
 
     public void giveKey(){
         hasKeyInInventory = true;
@@ -60,10 +69,6 @@ public class Player implements VersatileObject {
     @Override
     public Position getPosition() { return position;}
 
-    public Position getlastPosition() {
-        return lastposition;
-    }
-
     @Override
     public String getObjectIcon() {
         Position viewDirection = viewDirections[currentViewDirection];
@@ -80,7 +85,6 @@ public class Player implements VersatileObject {
         Position pos = new Position(viewDirection.getX() * amount, viewDirection.getY() * amount);
         moveByAmount(pos);
     }
-
     @Override
     public void moveByAmount(Position amountPos) {
         int size = fieldSize - 1;

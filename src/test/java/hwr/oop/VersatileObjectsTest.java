@@ -219,6 +219,19 @@ public class VersatileObjectsTest {
 
             assertThat(hasKey).isTrue();
         }
+        @Test
+        void Player_restarted(){
+            player.restart();
+            assertThat(player.getLives()).isEqualTo(3);
+            assertThat(player.hasKey()).isEqualTo(false);
+            assertThat(player.getHasOpenedDoor()).isEqualTo(false);
+        }
+        @Test
+        void Player_setPosition(){
+            Position expectedPos = new Position(2,5);
+            player.setPosition(new Position(2,5));
+            assertThat(player.getPosition()).isEqualTo(expectedPos);
+        }
     }
 
 }

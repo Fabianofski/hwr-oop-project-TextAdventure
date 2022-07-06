@@ -50,18 +50,18 @@ public class NPC implements FixedObject {
                                 "               |    \\      \\  \\\n" +
                                 "               |     \\   \\  \\  \\\n" +
                                 "               |\\     `. /  /   \\"+
-                        "\nMariele:\n" +
+                        "\nMariel:\n" +
                         "Hello Dear, I heard you are searching for something?\n" +
                         "\nYou:" +
                         "\nYes, can I have a Key? / No.");
                 if (response.equals("1")) {
-                    ioHandler.addToOutputBuffer("\nMariele:\nHere is your key!");
+                    ioHandler.addToOutputBuffer("\nMariel:\nHere is your key!");
                     givenKeyEvent();
                     playerSpoke=true;
                 } else ioHandler.addToOutputBuffer("\nYep.");
                 break;
             }
-            case Jonas:{
+            case Milhouse:{
                 String response = ioHandler.requestStringInput("            (.,------...__\n" +
                         "         _.'\"             `.\n" +
                         "       .'  .'   `, `. `.    `\n" +
@@ -80,10 +80,10 @@ public class NPC implements FixedObject {
                         " .'           \\__/          `.\n" +
                         "/      |        o      |      \\\n" +
                         "       |               |      |" +
-                        "\nJonas:\nWho are you? What do you want?!" +
+                        "\nMilhouse:\nWho are you? What do you want?!" +
                         "\nYou:\n I am searching for a Key!/ Ugh never mind...");
                 if (response.equals("1")) {
-                    ioHandler.addToOutputBuffer("\nJonas:\nWhat? Wait lemme search...\n\nOh! I have got here something!");
+                    ioHandler.addToOutputBuffer("\nMilhouse:\nWhat? Wait lemme search...\n\nOh! I have got here something!");
                     givenKeyEvent();
                     playerSpoke=true;
                 } else ioHandler.addToOutputBuffer("\nWeirdo....");
