@@ -56,10 +56,10 @@ public class Game {
                 "      ._.-. _\\ \\    `'-' /    \n" +
                 " .--.  `-,_(_); `-..__.-' "+
                 "\nGoodda' Adventurer!\nI've heard you were commin' to me." +
-                " You are willing to explore the abounded House right?\n" +
-                "Hahaha.. I've heard it's not that much abounded anymore, but still, we don't know anything 'bout it.\n" +
-                "Yeah..Anyways, here is you flashlight, watch out. And if you see anybody, you might speak to them." +
-                "Maybe you can tell me later if there lives anybody..." +
+                " You are willing to explore the abandoned House right?\n" +
+                "Hahaha.. I've heard it's not that much abandoned anymore, but still, we don't know anything 'bout it.\n" +
+                "Yeah..Anyways, here is your flashlight, watch out. And if you see anybody, you might speak to them." +
+                "Maybe you can tell me later if anybody lives there..." +
                 "\n Oh! And here is the key to the first door!\n" +
                 "Sadly, I only have this one... To open other doors you might have to search for a key..Sorry mate");
         ioHandler.addToOutputBuffer("\n------------------------------------------------\n");
@@ -78,8 +78,7 @@ public class Game {
         writeGameStateToIOHandler();
     }
     public void proceed(String direction){
-        boolean turnRight = direction.equals("1");
-        player.turn(turnRight);
+        player.turn(direction);
         writeToIOHandler();
     }
 
@@ -88,7 +87,7 @@ public class Game {
         int x = last.getX();
         int y = last.getY();
         player.moveByAmount(moveAmount);
-        boolean i = checkIfWall(x, y);
+        boolean i = checkIfWall(x, y,moveAmount);
         ghost.moveTowardsPosition(player.getPosition());
         writeToIOHandlerCheckWall(i);
         tripping(moveAmount);
@@ -106,11 +105,21 @@ public class Game {
         }
     }
 
-    private boolean checkIfWall(int x, int y) {
+    private boolean checkIfWall(int x, int y,int amount) {
         Position playerPos = player.getPosition();
         FixedObject fixedObject = gameField[playerPos.x][playerPos.y];
         if(fixedObject.getObjectIcon()=="#"){
+            System.out.println(player.getPosition().toString());
             player.setPosition(new Position(x, y));
+            System.out.println(player.getPosition().toString());
+            if(amount==2){
+                player.moveByAmount(1);
+                System.out.println(player.getPosition().toString());
+            }
+            if(amount==3){
+                player.moveByAmount(2);
+                System.out.println(player.getPosition().toString());
+            }
             return true;
         }
         else{return false;}

@@ -181,15 +181,15 @@ public class VersatileObjectsTest {
             String icon = player.getObjectIcon();
             assertThat(icon).isEqualTo("V");
 
-            player.turn(true);
+            player.turn("1");
             icon = player.getObjectIcon();
             assertThat(icon).isEqualTo("<");
 
-            player.turn(true);
+            player.turn("2");
             icon = player.getObjectIcon();
             assertThat(icon).isEqualTo("^");
 
-            player.turn(true);
+            player.turn("3");
             icon = player.getObjectIcon();
             assertThat(icon).isEqualTo(">");
         }
@@ -199,15 +199,15 @@ public class VersatileObjectsTest {
             String icon = player.getObjectIcon();
             assertThat(icon).isEqualTo("V");
 
-            player.turn(false);
+            player.turn("1");
             icon = player.getObjectIcon();
             assertThat(icon).isEqualTo(">");
 
-            player.turn(false);
+            player.turn("2");
             icon = player.getObjectIcon();
             assertThat(icon).isEqualTo("^");
 
-            player.turn(false);
+            player.turn("3");
             icon = player.getObjectIcon();
             assertThat(icon).isEqualTo("<");
         }

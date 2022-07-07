@@ -28,6 +28,13 @@ public class Position {
         x += pos.x;
         y += pos.y;
     }
+    public void setX(int xx){
+        x = xx;
+    }
+    public void setY(int yy){
+        y = yy;
+    }
+
 
     @Override
     public boolean equals(Object o) {

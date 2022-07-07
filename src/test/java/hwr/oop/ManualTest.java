@@ -45,7 +45,7 @@ public class ManualTest {
                     game.proceed(amount);
                 }
             }else{
-                String direction = ioHandler.requestStringInput("(Right/Left)?");
+                String direction = ioHandler.requestStringInput("(Left/Right/Up/Down)?");
                 game.proceed(direction);
             }
             if(game.GameWon()){

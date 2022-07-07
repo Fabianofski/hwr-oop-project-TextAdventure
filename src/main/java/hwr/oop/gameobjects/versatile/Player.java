@@ -56,14 +56,23 @@ public class Player implements VersatileObject {
         return lives <= 0;
     }
 
-    public void turn(boolean turnRight){
-        if(turnRight)
-            currentViewDirection++;
-        else
-            currentViewDirection--;
+    public void turn(String direction){
+        if(direction.equals("1")) { 
+           this.currentViewDirection = 1;
+        }
+        if(direction.equals("2")) {
+            currentViewDirection = 3;
+            System.out.println("hi");
+        }
+        if(direction.equals("3")) {
+            currentViewDirection = 2;
+        }
+        if(direction.equals("4")) {
+            currentViewDirection = 0;
+        }
 
-        if(currentViewDirection < 0) currentViewDirection = 3;
-        else if(currentViewDirection > 3) currentViewDirection  = 0;
+        System.out.println(getObjectIcon());
+
     }
 
     @Override
@@ -71,11 +80,9 @@ public class Player implements VersatileObject {
 
     @Override
     public String getObjectIcon() {
-        Position viewDirection = viewDirections[currentViewDirection];
-
-        if(viewDirection.getX() == 1) return ">";
-        else if(viewDirection.getX() == -1) return "<";
-        else if(viewDirection.getY() == -1) return "^";
+        if(currentViewDirection==3) return ">";
+        else if(currentViewDirection==1) return "<";
+        else if(currentViewDirection==2) return "^";
         else return "V";
     }
 
