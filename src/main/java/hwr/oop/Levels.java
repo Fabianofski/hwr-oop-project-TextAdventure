@@ -113,7 +113,7 @@ public class Levels {
         currentLevel = "Level2";
         return game ;
     }
-    private Game Level33(){
+    private Game Level3(){
         Position playerPos = new Position(6, 8);
         Position ghostPos = new Position(8, 5);
         setup(playerPos,ghostPos);

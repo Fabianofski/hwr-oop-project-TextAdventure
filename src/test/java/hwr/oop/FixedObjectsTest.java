@@ -189,10 +189,8 @@ public class FixedObjectsTest {
 
             npc.writeEventToIOHandler();
 
-            assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nMariel:\n" +
-                    "Here is your key!\n" +
-                    "\n" +
-                    "You received a Key!\n" +
+            assertThat(ioHandler.getOutputBuffer()).isEqualTo(
+                    "\n\nYou received a Key!\n" +
                     "                   __\n" +
                     "                  /o \\_____\n" +
                     "                  \\__/-=\"=\"`");
