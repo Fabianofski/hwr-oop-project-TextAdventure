@@ -36,6 +36,11 @@ public class LevelsTest {
             assertThat(expected).isEqualTo(levels.getCurrentLevel());
 
         }
+        @Test
+        void getIohandler_game(){
+            Levels level = new Levels();
+            assertThat(level.getIOHandler().getOutputBuffer()).isEqualTo("");
+        }
 
     }
 }

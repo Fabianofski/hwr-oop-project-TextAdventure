@@ -23,7 +23,7 @@ public class ManualTest {
             ioHandler.writeOutputAndClearBuffer();
 
             if(game.gameOver()){
-                ioHandler.addToOutputBuffer("The ghost killed you!\n");
+                ioHandler.addToOutputBuffer("\nSorry, you died!\n");
                 String tryAgain = ioHandler.requestStringInput("Do you wanna try again?\n Yes/No");
                 if(!(tryAgain=="2")){
                     game.restart();

@@ -3,7 +3,6 @@ package hwr.oop;
 import hwr.oop.gameobjects.fixed.*;
 import hwr.oop.gameobjects.versatile.*;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -24,8 +23,6 @@ public class Game {
         this.gameField = level;
         this.player = player;
         this.ghost = ghost;
-        //gameBegin();
-        //writeGameStateToIOHandler();
     }
 
     public void restart(){
@@ -55,7 +52,7 @@ public class Game {
                 "        ' \\_, _/     '  ) ;   \n" +
                 "      ._.-. _\\ \\    `'-' /    \n" +
                 " .--.  `-,_(_); `-..__.-' "+
-                "\nGoodda' Adventurer!\nI've heard you were commin' to me." +
+                "\nG'day' Adventurer!\nI've heard you were commin' to me." +
                 " You are willing to explore the abandoned House right?\n" +
                 "Hahaha.. I've heard it's not that much abandoned anymore, but still, we don't know anything 'bout it.\n" +
                 "Yeah..Anyways, here is your flashlight, watch out. And if you see anybody, you might speak to them." +
@@ -83,20 +80,25 @@ public class Game {
     }
 
     public void proceed(int moveAmount){
-        Position last = player.getPosition();
-        int x = last.getX();
-        int y = last.getY();
-        player.moveByAmount(moveAmount);
-        boolean i = checkIfWall(x, y,moveAmount);
+        boolean a = false;
+        for (int i = 0; i < moveAmount; i++) {
+            Position last = player.getPosition();
+            int x = last.getX();
+            int y = last.getY();
+            player.moveByAmount(1);
+            a = checkIfWall(x, y);
+            if(a){
+                break;
+            }
+        }
         ghost.moveTowardsPosition(player.getPosition());
-        writeToIOHandlerCheckWall(i);
+        writeToIOHandlerCheckWall(a);
         tripping(moveAmount);
     }
 
     private void tripping(int moveAmount) {
         if(moveAmount >1){
             int randomNum = ThreadLocalRandom.current().nextInt(1, 6);
-            System.out.println(randomNum);
             if(randomNum==5){
                 player.harmPlayer(1);
                 ioHandler.addToOutputBuffer("\nDon't run so fast! You tripped over a broken plank!" +
@@ -105,21 +107,13 @@ public class Game {
         }
     }
 
-    private boolean checkIfWall(int x, int y,int amount) {
+    private boolean checkIfWall(int x, int y) {
         Position playerPos = player.getPosition();
         FixedObject fixedObject = gameField[playerPos.x][playerPos.y];
-        if(fixedObject.getObjectIcon()=="#"){
+        if(fixedObject.getObjectIcon().equals("#")){
             System.out.println(player.getPosition().toString());
             player.setPosition(new Position(x, y));
             System.out.println(player.getPosition().toString());
-            if(amount==2){
-                player.moveByAmount(1);
-                System.out.println(player.getPosition().toString());
-            }
-            if(amount==3){
-                player.moveByAmount(2);
-                System.out.println(player.getPosition().toString());
-            }
             return true;
         }
         else{return false;}
@@ -127,6 +121,19 @@ public class Game {
 
     public boolean gameOver(){
         if(player.getLives()==0|ghost.ghostIsAtPlayer()){
+            ioHandler.addToOutputBuffer("     .-.\n" +
+                    "   .'   `.\n" +
+                    "   :g g   :\n" +
+                    "   : o    `.\n" +
+                    "  :         ``.\n" +
+                    " :             `.\n" +
+                    ":  :         .   `.\n" +
+                    ":   :          ` . `.\n" +
+                    " `.. :            `. ``;\n" +
+                    "    `:;             `:'\n" +
+                    "       :              `.\n" +
+                    "        `.              `.     .\n" +
+                    "          `'`'`'`---..,___`;.-'");
             return true;
         }
         else{
@@ -134,12 +141,9 @@ public class Game {
         }
     }
     public boolean GameWon(){
-        if(player.getHasOpenedDoor()){
-            return true;
-        }
-        else{return false;}
+        return player.getHasOpenedDoor();
     }
-    
+
     private void writeToIOHandlerCheckWall(boolean i) {
         writeToIOHandler();
         if(i){
@@ -147,7 +151,6 @@ public class Game {
             ioHandler.addToOutputBuffer("\n You can't run against the Wall! It hurts!" +
                     "\nDamage taken: 1\nLife left:"+player.getLives());
         }
-
     }
 
     private void writeToIOHandler() {
@@ -165,10 +168,10 @@ public class Game {
             for (int x = 0; x < fieldSize; x++) {
                 int xp = player.getPosition().getX();
                 int yp = player.getPosition().getY();
-                boolean whatPlayersees=((xp+1==x&yp==y)|(xp+1==x&yp-1==y)|(xp+1==x&yp+1==y)|
+                boolean whatPlayerSees=((xp+1==x&yp==y)|(xp+1==x&yp-1==y)|(xp+1==x&yp+1==y)|
                         (xp==x&yp+1==y)|(xp==x&yp==y)|(xp==x&yp-1==y)|(yp-1==y&xp-1==x)|
                         (xp-1==x&yp==y)|(xp-1==x&yp+1==y));
-                if(whatPlayersees){
+                if(whatPlayerSees){
                     if (Objects.equals(ghost.getPosition(), new Position(x, y)))
                         GameState.append(ghost.getObjectIcon()+"  ");
                     else if (Objects.equals(player.getPosition(), new Position(x, y)))

@@ -177,7 +177,7 @@ public class VersatileObjectsTest {
         }
 
         @Test
-        void Player_turnPlayerRight_looksInRightDirection() {
+        void Player_turnPlayer_looksInRightDirection() {
             String icon = player.getObjectIcon();
             assertThat(icon).isEqualTo("V");
 
@@ -187,29 +187,15 @@ public class VersatileObjectsTest {
 
             player.turn("2");
             icon = player.getObjectIcon();
-            assertThat(icon).isEqualTo("^");
+            assertThat(icon).isEqualTo(">");
 
             player.turn("3");
             icon = player.getObjectIcon();
-            assertThat(icon).isEqualTo(">");
-        }
+            assertThat(icon).isEqualTo("^");
 
-        @Test
-        void Player_turnPlayerLeft_looksInRightDirection() {
-            String icon = player.getObjectIcon();
+            player.turn("4");
+            icon = player.getObjectIcon();
             assertThat(icon).isEqualTo("V");
-
-            player.turn("1");
-            icon = player.getObjectIcon();
-            assertThat(icon).isEqualTo(">");
-
-            player.turn("2");
-            icon = player.getObjectIcon();
-            assertThat(icon).isEqualTo("^");
-
-            player.turn("3");
-            icon = player.getObjectIcon();
-            assertThat(icon).isEqualTo("<");
         }
 
         @Test

@@ -86,11 +86,12 @@ public class Player implements VersatileObject {
         else return "V";
     }
 
-    public void moveByAmount(int amount){
+    public Position moveByAmount(int amount){
         lastposition = position;
         Position viewDirection = viewDirections[currentViewDirection];
         Position pos = new Position(viewDirection.getX() * amount, viewDirection.getY() * amount);
         moveByAmount(pos);
+        return  pos;
     }
     @Override
     public void moveByAmount(Position amountPos) {

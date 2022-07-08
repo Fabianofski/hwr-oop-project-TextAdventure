@@ -3,6 +3,7 @@ package hwr.oop;
 import hwr.oop.gameobjects.fixed.Door;
 import hwr.oop.gameobjects.fixed.FixedObject;
 import hwr.oop.gameobjects.fixed.Nothing;
+import hwr.oop.gameobjects.fixed.Wall;
 import hwr.oop.gameobjects.versatile.Ghost;
 import hwr.oop.gameobjects.versatile.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -76,6 +78,23 @@ public class GameTest {
             assertThat(game.GameWon()).isEqualTo(false);
         }
         @Test
+        void player_cantRun_pastWall(){
+            FixedObject[][] testLevel = new FixedObject[9][9];
+            for (int x = 0; x < 9; x++) {
+                for (int y = 0; y < 9; y++) {
+                    testLevel[x][y] = new Nothing(ioHandler);
+                }
+            }
+            testLevel[5][6] = new Wall(ioHandler);
+            Position playerPos = new Position(5, 5);
+            player = new Player(playerPos, testLevel.length);
+            game = new Game(testLevel,ioHandler,player,new Ghost(new Position(2,4),player));
+            game.proceed(3);
+            Position expectedPosition = new Position(5,5);
+           assertThat(expectedPosition.toString()).isEqualTo(player.getPosition().toString());
+
+        }
+        @Test
         void proceed_playerMovesOnDoor_isFilledWithGameFieldAndDoorEvent() {
             String expectedGameState =
                     "0  1  2  3  4  5  6  7  8  9\n" +
@@ -122,7 +141,25 @@ public class GameTest {
             String printed = ioHandler.getOutputBuffer();
             assertThat(printed).isEqualTo(expectedGameState);
         }
-
+        @Test
+        void gameOver_ghostIsAtPlayer_ghostShows() {
+            game.getGhost().setStartPosition(new Position(5,5));
+            game.gameOver();
+            String expected = "     .-.\n" +
+                    "   .'   `.\n" +
+                    "   :g g   :\n" +
+                    "   : o    `.\n" +
+                    "  :         ``.\n" +
+                    " :             `.\n" +
+                    ":  :         .   `.\n" +
+                    ":   :          ` . `.\n" +
+                    " `.. :            `. ``;\n" +
+                    "    `:;             `:'\n" +
+                    "       :              `.\n" +
+                    "        `.              `.     .\n" +
+                    "          `'`'`'`---..,___`;.-'";
+            assertThat(ioHandler.getOutputBuffer()).isEqualTo(expected);
+        }
         @Test
         void gameOver_ghostIsAtPlayer_gameIsOver() {
 
@@ -133,12 +170,30 @@ public class GameTest {
         }
 
         @Test
+        void gameOver_PlayerHasNoLive() {
+            player.harmPlayer(3);
+            assertThat(game.gameOver()).isEqualTo(true);
+        }
+
+        @Test
         void gameOver_ghostIsNotAtPlayer_gameIsNotOver() {
             boolean gameOver = game.gameOver();
 
             assertThat(gameOver).isFalse();
         }
-
+        @Test
+        void proceed_player_getsHurtIfRunning(){
+            game.proceed(3);
+            game.proceed(3);
+            game.proceed(3);
+            game.proceed(3);
+            game.proceed(3);
+            game.proceed(3);
+            game.proceed(3);
+            game.proceed(3);
+            boolean lessLife = !(player.getLives()==3);
+            assertThat(lessLife).isEqualTo(true);
+        } //ist eine Zufallsmethode, anders kann mans nicht so gut testen:/
         @Test
         void gameRestart_gameIsNull(){
             game.restart();
