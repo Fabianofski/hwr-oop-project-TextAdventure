@@ -25,14 +25,6 @@ public class Game {
         this.ghost = ghost;
     }
 
-    public void restart(){
-        this.fieldSize = 0;
-        this.ioHandler = null;
-        this.gameField = null;
-        this.player = null;
-        this.ghost = null;
-
-    }
     public void nextLevel(){
         writeGameStateToIOHandler();
         ioHandler.addToOutputBuffer("\n------------------------------------------------\n");
@@ -134,6 +126,7 @@ public class Game {
                     "       :              `.\n" +
                     "        `.              `.     .\n" +
                     "          `'`'`'`---..,___`;.-'");
+            ioHandler.addToOutputBuffer("\nSorry, you died!\n");
             return true;
         }
         else{

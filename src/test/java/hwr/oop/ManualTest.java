@@ -12,23 +12,21 @@ public class ManualTest {
 
     @Test
     @Disabled
-    void manualTestLevel1() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    void manualTestLevel1(){
 
         level = new Levels();
         game = level.getLevel(1);
         ioHandler = level.getIOHandler();
-
+        int i = 1;
         while (true){
-            int i = 1;
+
             ioHandler.writeOutputAndClearBuffer();
 
             if(game.gameOver()){
-                ioHandler.addToOutputBuffer("\nSorry, you died!\n");
                 String tryAgain = ioHandler.requestStringInput("Do you wanna try again?\n Yes/No");
                 if(!(tryAgain=="2")){
-                    game.restart();
                     game = level.getLevel(1);
-                    ioHandler.clearOutputBuffer();
+                    ioHandler.writeOutputAndClearBuffer();
                 }
                 else{
                     break;
@@ -44,10 +42,18 @@ public class ManualTest {
                 else {
                     game.proceed(amount);
                 }
-            }else{
+            }else if(decision.equals("2")){
                 String direction = ioHandler.requestStringInput("(Left/Right/Up/Down)?");
+                if(!((direction.equals("1"))|(direction.equals("2"))|(direction.equals("3"))|(direction.equals("4")))){
+                    ioHandler.addToOutputBuffer("Wrong Input!");
+                }
                 game.proceed(direction);
             }
+            else{
+                ioHandler.addToOutputBuffer("Wrong Input!");
+            }
+
+
             if(game.GameWon()){
                     String nextLevel = ioHandler.requestStringInput("You have won the Level!! Wanna go to the next Level?\n");
                     if(!(nextLevel=="2")){
@@ -66,6 +72,5 @@ public class ManualTest {
                     }
             }
         }
-
     }
 }

@@ -56,9 +56,11 @@ public class NPC implements FixedObject {
                         "\nYes, can I have a Key? / No.");
                 if (response.equals("1")) {
                     ioHandler.addToOutputBuffer("\nMariel:\nHere is your key!");
+                    ioHandler.writeOutputAndClearBuffer();
                     givenKeyEvent();
                     playerSpoke=true;
                 } else ioHandler.addToOutputBuffer("\nYep.");
+
                 break;
             }
             case Milhouse:{

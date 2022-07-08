@@ -157,7 +157,8 @@ public class GameTest {
                     "    `:;             `:'\n" +
                     "       :              `.\n" +
                     "        `.              `.     .\n" +
-                    "          `'`'`'`---..,___`;.-'";
+                    "          `'`'`'`---..,___`;.-'\n" +
+                    "Sorry, you died!\n";
             assertThat(ioHandler.getOutputBuffer()).isEqualTo(expected);
         }
         @Test
@@ -194,11 +195,6 @@ public class GameTest {
             boolean lessLife = !(player.getLives()==3);
             assertThat(lessLife).isEqualTo(true);
         } //ist eine Zufallsmethode, anders kann mans nicht so gut testen:/
-        @Test
-        void gameRestart_gameIsNull(){
-            game.restart();
-            assertThat(game.getGhost()).isEqualTo(null);
-        }
 
         @Test
         void nextLevel_Output(){

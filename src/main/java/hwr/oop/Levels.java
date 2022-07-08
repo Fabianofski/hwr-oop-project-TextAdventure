@@ -54,7 +54,7 @@ public class Levels {
         player.restart();
 
     }
-    private boolean checkMethod(int i)
+    private boolean checkIfLevelExist(int i)
     {
         boolean a=true;
         try {
@@ -75,19 +75,26 @@ public class Levels {
         }
         return a;
     }
-    public Game getLevel(int i) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public Game getLevel(int i) {
         Game game1 = null;
-        if (checkMethod(i)) {
-            String Level = "hwr.oop.Levels";
-            Class<?> c = Class.forName(Level);
-            Method method = c.getDeclaredMethod("Level" + i);
-            game1 = (Game) method.invoke(this);
+        if (checkIfLevelExist(i)) {
+            try {
+                String Level = "hwr.oop.Levels";
+                Class<?> c = Class.forName(Level);
+                Method method = c.getDeclaredMethod("Level" + i);
+                game1 = (Game) method.invoke(this);
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+
         }
         return game1;
     }
     private Game Level2(){
-        Position playerPos = new Position(6, 7);
-        Position ghostPos = new Position(8, 8);
+        Position playerPos = new Position(1, 1);
+        Position ghostPos = new Position(0, 3);
         setup(playerPos,ghostPos);
         FixedObject[][] testLevel = new FixedObject[9][9];
         for (int x = 0; x < this.length; x++) {
@@ -95,18 +102,18 @@ public class Levels {
                 testLevel[x][y] = new Nothing(ioHandler);
             }
         }
-        testLevel[2][3] = new Door(ioHandler,player);
-        testLevel[1][8] = new NPC(ioHandler, player, NpcTypes.Milhouse);
+        testLevel[5][7] = new Door(ioHandler,player);
+        testLevel[8][4] = new NPC(ioHandler, player, NpcTypes.Milhouse);
         //testLevel[5][8] = new NPC(ioHandler, player, NpcTypes.Michelle);
 
-        for (int i = 0; i < 6; i++) {
-            testLevel[i + 2][4] = new Wall(ioHandler);
+        for (int i = 8; i < 0; i++) {
+            testLevel[i - 2][4] = new Wall(ioHandler);
         }
         game = new Game(testLevel, ioHandler, player, ghost);
         currentLevel = "Level2";
         return game ;
     }
-    private Game Level3(){
+    private Game Level33(){
         Position playerPos = new Position(6, 8);
         Position ghostPos = new Position(8, 5);
         setup(playerPos,ghostPos);
