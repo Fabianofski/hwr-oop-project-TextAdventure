@@ -183,18 +183,16 @@ public class GameTest {
         }
         @Test
         void proceed_player_getsHurtIfRunning(){
-            // TODO: Rewrite
-            game.proceedWithMove(3);
-            game.proceedWithMove(3);
-            game.proceedWithMove(3);
-            game.proceedWithMove(3);
-            game.proceedWithMove(3);
-            game.proceedWithMove(3);
-            game.proceedWithMove(3);
-            game.proceedWithMove(3);
+
+            for (int i = 0; i <10 ; i++) {
+                game.proceedWithMove(3);
+                if (player.getLives()<3){
+                    break;
+                }
+            }
             boolean lessLife = !(player.getLives()==3);
             assertThat(lessLife).isEqualTo(true);
-        } //ist eine Zufallsmethode, anders kann mans nicht so gut testen:/
+        }
 
         @Test
         void nextLevel_Output(){
