@@ -1,21 +1,18 @@
 package hwr.oop.gameobjects.fixed;
 
 import hwr.oop.IIOHandler;
-import hwr.oop.IOHandler;
 import hwr.oop.gameobjects.versatile.Player;
 
 public class NPC implements FixedObject {
 
     IIOHandler ioHandler;
     Player player;
-    NpcTypes name;
-    boolean playerSpoke;
+    boolean playerSpokeToNPC;
 
-    public NPC(IIOHandler ioHandler, Player player, NpcTypes name) {
-        this.playerSpoke=false;
+    public NPC(IIOHandler ioHandler, Player player) {
+        this.playerSpokeToNPC =false;
         this.ioHandler = ioHandler;
         this.player = player;
-        this.name = name;
     }
 
     @Override
@@ -25,87 +22,17 @@ public class NPC implements FixedObject {
 
     @Override
     public void writeEventToIOHandler() {
-        if (this.playerSpoke==false){
-            checkName(name);
-        }
-        else{
-            ioHandler.addToOutputBuffer("You already spoke to them.");
-        }
-
-    }
-    //Hier ist viel Dialog, muss aber sein bei NPCs :D
-    public void checkName(NpcTypes npctype){
-        switch(npctype) {
-            case Mariel: {
-                String response = ioHandler.requestStringInput("                    _,,,_\n" +
-                                "                  .'     `'.\n" +
-                                "                 /     ____ \\\n" +
-                                "                |    .'_  _\\/\n" +
-                                "                /    ) a  a|\n" +
-                                "               /    (    > |\n" +
-                                "              (      ) ._  /\n" +
-                                "              )    _/-.__.'`\\\n" +
-                                "             (  .-'`-.   \\__ )\n" +
-                                "              `/      `-./  `.\n" +
-                                "               |    \\      \\  \\\n" +
-                                "               |     \\   \\  \\  \\\n" +
-                                "               |\\     `. /  /   \\"+
-                        "\nMariel:\n" +
-                        "Hello Dear, I heard you are searching for something?\n" +
-                        "\nYou:" +
-                        "\nYes, can I have a Key? / No.");
-                if (response.equals("1")) {
-                    ioHandler.addToOutputBuffer("\nMariel:\nHere is your key!");
-                    ioHandler.writeOutputAndClearBuffer();
-                    givenKeyEvent();
-                    playerSpoke=true;
-                } else ioHandler.addToOutputBuffer("\nYep.");
-
-                break;
-            }
-            case Milhouse:{
-                String response = ioHandler.requestStringInput("            (.,------...__\n" +
-                        "         _.'\"             `.\n" +
-                        "       .'  .'   `, `. `.    `\n" +
-                        "      . .'   .'/''--...__`.  \\\n" +
-                        "     . .--.`.  ' \"-.     '.  |\n" +
-                        "     ''  .'  _.' .())  .--\":/\n" +
-                        "     ''(  \\_\\      '   (()(\n" +
-                        "     ''._'          (   \\ '\n" +
-                        "     ' `.            `--'  '\n" +
-                        "      `.:    .   `-.___.'  '\n" +
-                        "       `.     .    _  _  .'\n" +
-                        "         )       .____.-'\n" +
-                        "       .'`.        (--..\n" +
-                        "     .' \\  /\\      / /  `.\n" +
-                        "   .'    \\(  \\    /|/     `.\n" +
-                        " .'           \\__/          `.\n" +
-                        "/      |        o      |      \\\n" +
-                        "       |               |      |" +
-                        "\nMilhouse:\nWho are you? What do you want?!" +
-                        "\nYou:\n I am searching for a Key!/ Ugh never mind...");
-                if (response.equals("1")) {
-                    ioHandler.addToOutputBuffer("\nMilhouse:\nWhat? Wait lemme search...\n\nOh! I have got here something!");
-                    givenKeyEvent();
-                    playerSpoke=true;
-                } else ioHandler.addToOutputBuffer("\nWeirdo....");
-                break;
-            }
-            case Michelle: {
-                ioHandler.addToOutputBuffer("    .--..-\"\"\"\"-..--.\n" +
-                        "   ///`/////////\\`\\\\\\\n" +
-                        "   ||/ |///\"\"\\\\\\| \\||\n" +
-                        "   ##  (  6. 6  )  ##\n" +
-                        "   /_\\  \\  _.  /  /_\\\n" +
-                        "        _`)  (`_\n" +
-                        "      /`  '--'  `\\\n" +
-                        "     /    _,,_    \\"+
-                        "\nMichelle:\n Uhm Sorry who are you? Momma doesn't allow me to speak with strangers...");
-            }
-        }
+        if (playerSpokeToNPC)
+            ioHandler.addToOutputBuffer("You already spoke to this NPC.");
+        else
+            talkToNPC();
     }
 
-    public void givenKeyEvent(){
+    public void talkToNPC(){
+        ioHandler.addToOutputBuffer("\nThis is a stupid NPC.");
+    }
+
+    public void givePlayerKey(){
         player.giveKey();
         ioHandler.addToOutputBuffer("\n\nYou received a Key!\n" +
                 "                   __\n" +

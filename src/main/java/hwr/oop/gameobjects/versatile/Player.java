@@ -97,10 +97,13 @@ public class Player implements VersatileObject {
     public void moveByAmount(Position amountPos) {
         int size = fieldSize - 1;
         position.add(amountPos);
-        position = new Position(clamp(position.getX(), 0, size), clamp(position.getY(), 0, size));
+
+        int clampedX = clamp(position.getX(), 0, size);
+        int clampedY = clamp(position.getY(), 0, size);
+        position = new Position(clampedX, clampedY);
     }
     public void setPosition(Position position){
-        this.position=new Position(position.getX(), position.getY());
+        this.position=position;
     }
 
     private int clamp(int val, int min, int max) {

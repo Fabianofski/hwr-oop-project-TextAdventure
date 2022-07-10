@@ -68,7 +68,7 @@ public class IOHandlerTest {
 
     @Test
     void ioHandler_requestIntegerInput_returnsTestInputResponseAndWritesRequestToOutput() {
-        input = new ByteArrayInputStream("1".getBytes());
+        input = new ByteArrayInputStream("1 ".getBytes());
         ioHandler = new IOHandler(input, new PrintStream(output));
 
         int response = ioHandler.requestIntegerInput(testRequest);
@@ -76,5 +76,23 @@ public class IOHandlerTest {
 
         assertThat(response).isEqualTo(1);
         assertThat(writtenOutput).isEqualTo(testRequest + newLine);
+    }
+
+    @Test
+    void ioHandler_requestIntegerInputAndStringInput_returnsTestIntegerInputResponseSkipsNewLineAndReturnsTestStringInputResponse() {
+        input = new ByteArrayInputStream(("1\n" + testInput).getBytes());
+        ioHandler = new IOHandler(input, new PrintStream(output));
+
+        int intResponse = ioHandler.requestIntegerInput(testRequest);
+        String intWrittenOutput = output.toString();
+
+        assertThat(intResponse).isEqualTo(1);
+        assertThat(intWrittenOutput).isEqualTo(testRequest + newLine);
+
+        String response = ioHandler.requestStringInput(testRequest);
+        String writtenOutput = output.toString();
+
+        assertThat(response).isEqualTo(testInput);
+        assertThat(writtenOutput).isEqualTo(testRequest + newLine + testRequest + newLine);
     }
 }

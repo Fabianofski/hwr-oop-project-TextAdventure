@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -49,7 +48,7 @@ public class GameTest {
 
         @Test
         void gameStart_Field() {
-            game.gameBegin();
+            game.welcome();
             String expectedGameState =
             "0  1  2  3  4  5  6  7  8  9\n" +
                     "1  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
@@ -89,7 +88,7 @@ public class GameTest {
             Position playerPos = new Position(5, 5);
             player = new Player(playerPos, testLevel.length);
             game = new Game(testLevel,ioHandler,player,new Ghost(new Position(2,4),player));
-            game.proceed(3);
+            game.proceedWithMove(3);
             Position expectedPosition = new Position(5,5);
            assertThat(expectedPosition.toString()).isEqualTo(player.getPosition().toString());
 
@@ -103,7 +102,7 @@ public class GameTest {
                             "3  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
                             "4  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
                             "5  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
-                            "6  ?  ?  ?  ?  G  _  _  ?  ?  \n" +
+                            "6  ?  ?  ?  ?  _  _  _  ?  ?  \n" +
                             "7  ?  ?  ?  ?  _  V  _  ?  ?  \n" +
                             "8  ?  ?  ?  ?  _  _  _  ?  ?  \n" +
                             "9  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
@@ -113,7 +112,7 @@ public class GameTest {
                             "You don't have a Key to open the door.";
             ioHandler.clearOutputBuffer();
 
-            game.proceed(1);
+            game.proceedWithMove(1);
 
             String printed = ioHandler.getOutputBuffer();
             assertThat(printed).isEqualTo(expectedGameState);
@@ -136,7 +135,7 @@ public class GameTest {
                             "------------------------------------------------\n";
             ioHandler.clearOutputBuffer();
 
-            game.proceed("1");
+            game.proceedWithTurn("1");
 
             String printed = ioHandler.getOutputBuffer();
             assertThat(printed).isEqualTo(expectedGameState);
@@ -184,14 +183,15 @@ public class GameTest {
         }
         @Test
         void proceed_player_getsHurtIfRunning(){
-            game.proceed(3);
-            game.proceed(3);
-            game.proceed(3);
-            game.proceed(3);
-            game.proceed(3);
-            game.proceed(3);
-            game.proceed(3);
-            game.proceed(3);
+            // TODO: Rewrite
+            game.proceedWithMove(3);
+            game.proceedWithMove(3);
+            game.proceedWithMove(3);
+            game.proceedWithMove(3);
+            game.proceedWithMove(3);
+            game.proceedWithMove(3);
+            game.proceedWithMove(3);
+            game.proceedWithMove(3);
             boolean lessLife = !(player.getLives()==3);
             assertThat(lessLife).isEqualTo(true);
         } //ist eine Zufallsmethode, anders kann mans nicht so gut testen:/
@@ -199,7 +199,7 @@ public class GameTest {
         @Test
         void nextLevel_Output(){
             ioHandler.clearOutputBuffer();
-            game.nextLevel();
+            game.welcomeToNextLevel();
             String output =
                     "0  1  2  3  4  5  6  7  8  9\n" +
                             "1  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +

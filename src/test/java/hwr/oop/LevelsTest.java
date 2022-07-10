@@ -13,7 +13,15 @@ public class LevelsTest {
         Levels levels;
 
         @Test
-        void getLevel2_givesLevel2() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        void getLevel1_givesLevel1() {
+            levels=new Levels();
+            levels.getLevel(1);
+            String expected = "Level1";
+            assertThat(expected).isEqualTo(levels.getCurrentLevel());
+
+        }
+        @Test
+        void getLevel2_givesLevel2() {
             levels=new Levels();
             levels.getLevel(2);
             String expected = "Level2";
@@ -21,7 +29,7 @@ public class LevelsTest {
 
         }
         @Test
-        void getLevel3_givesLevel3() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        void getLevel3_givesLevel3() {
             levels=new Levels();
             levels.getLevel(3);
             String expected = "Level3";
@@ -29,11 +37,10 @@ public class LevelsTest {
 
         }
         @Test
-        void getLevel1_givesLevel1() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-            levels=new Levels();
-            levels.getLevel(1);
-            String expected = "Level1";
-            assertThat(expected).isEqualTo(levels.getCurrentLevel());
+        void getLevel4_doesntExist() {
+            levels = new Levels();
+            Game game = levels.getLevel(4);
+            assertThat(game).isNull();
 
         }
         @Test

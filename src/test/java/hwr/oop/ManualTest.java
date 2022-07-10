@@ -3,8 +3,6 @@ package hwr.oop;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class ManualTest {
     Game game;
     IIOHandler ioHandler;
@@ -40,14 +38,14 @@ public class ManualTest {
                     ioHandler.addToOutputBuffer("You can only make 1-3 Steps!");
                 }
                 else {
-                    game.proceed(amount);
+                    game.proceedWithMove(amount);
                 }
             }else if(decision.equals("2")){
                 String direction = ioHandler.requestStringInput("(Left/Right/Up/Down)?");
                 if(!((direction.equals("1"))|(direction.equals("2"))|(direction.equals("3"))|(direction.equals("4")))){
                     ioHandler.addToOutputBuffer("Wrong Input!");
                 }
-                game.proceed(direction);
+                game.proceedWithTurn(direction);
             }
             else{
                 ioHandler.addToOutputBuffer("Wrong Input!");
@@ -55,21 +53,21 @@ public class ManualTest {
 
 
             if(game.GameWon()){
-                    String nextLevel = ioHandler.requestStringInput("You have won the Level!! Wanna go to the next Level?\n");
-                    if(!(nextLevel=="2")){
-                        i++;
-                        game = level.getLevel(i);
-                        if(game==null){
-                            ioHandler.addToOutputBuffer("You completed the game!");
-                            break;
-                        }
-                        else {
-                            game.nextLevel();
-                        }
-                    }
-                    else{
+                String nextLevel = ioHandler.requestStringInput("You have won the Level!! Wanna go to the next Level?\n");
+                if(!(nextLevel=="2")){
+                    i++;
+                    game = level.getLevel(i);
+                    if(game==null){
+                        ioHandler.addToOutputBuffer("You completed the game!");
                         break;
                     }
+                    else {
+                        game.welcomeToNextLevel();
+                    }
+                }
+                else{
+                    break;
+                }
             }
         }
     }

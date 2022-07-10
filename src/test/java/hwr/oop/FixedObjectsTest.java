@@ -98,12 +98,12 @@ public class FixedObjectsTest {
         @BeforeEach
         void setUp() {
             player = new Player(new Position(), 9);
-            npc = new NPC(ioHandler, player, NpcTypes.Mariel);
+            npc = new NPCMariel(ioHandler, player);
         }
 
         @Test
         void npc_isFieldObject(){
-            npc = new NPC(ioHandler, player, NpcTypes.Mariel);
+            npc = new NPCMariel(ioHandler, player);
             assertThat(npc)
                     .isInstanceOf(FixedObject.class)
                     .isInstanceOf(NPC.class);
@@ -114,21 +114,26 @@ public class FixedObjectsTest {
             String icon = npc.getObjectIcon();
             assertThat(icon).isEqualTo("O");
         }
-
+        @Test
+        void npc_stupidNPC_writeEventIOHandlerFirstResponse_writesToIOHandler() {
+            npc = new NPC(ioHandler,player);
+            npc.writeEventToIOHandler();
+            assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nThis is a stupid NPC.");
+        }
         @Test
         void npc_Mariel_writeEventIOHandlerFirstResponse_writesToIOHandler() {
             npc.writeEventToIOHandler();
             assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nYep.");
         }
         @Test
-        void npc_Jonas_writeEventIOHandlerFirstResponse_writesToIOHandler() {
-            npc = new NPC(ioHandler,player,NpcTypes.Milhouse);
+        void npc_Milhouse_writeEventIOHandlerFirstResponse_writesToIOHandler() {
+            npc = new NPCMilhouse(ioHandler,player);
             npc.writeEventToIOHandler();
             assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nWeirdo....");
         }
         @Test
         void npc_Michelle_writeEventIOHandlerFirstResponse_writesToIOHandler() {
-            npc = new NPC(ioHandler,player,NpcTypes.Michelle);
+            npc = new NPCMichelle(ioHandler,player);
             npc.writeEventToIOHandler();
             assertThat(ioHandler.getOutputBuffer()).isEqualTo("    .--..-\"\"\"\"-..--.\n" +
                     "   ///`/////////\\`\\\\\\\n" +
@@ -147,13 +152,13 @@ public class FixedObjectsTest {
             ByteArrayInputStream input = new ByteArrayInputStream("1".getBytes());
             ByteArrayOutputStream output = new ByteArrayOutputStream();
             ioHandler = new IOHandler(input, new PrintStream(output));
-            npc = new NPC(ioHandler, player,NpcTypes.Mariel);
+            npc = new NPCMariel(ioHandler, player);
             npc.writeEventToIOHandler();
 
             ioHandler.clearOutputBuffer();
             npc.writeEventToIOHandler();
 
-            assertThat(ioHandler.getOutputBuffer()).isEqualTo("You already spoke to them.");
+            assertThat(ioHandler.getOutputBuffer()).isEqualTo("You already spoke to this NPC.");
         }
         @Test
         void npc_jonas_writeEventIOHandlerSecondResponse_writesToIOHandlerAndPlayerHasKey(){
@@ -161,7 +166,7 @@ public class FixedObjectsTest {
             ByteArrayOutputStream output = new ByteArrayOutputStream();
 
             ioHandler = new IOHandler(input, new PrintStream(output));
-            npc = new NPC(ioHandler, player,NpcTypes.Milhouse);
+            npc = new NPCMilhouse(ioHandler, player);
 
             npc.writeEventToIOHandler();
 
@@ -185,7 +190,7 @@ public class FixedObjectsTest {
             ByteArrayOutputStream output = new ByteArrayOutputStream();
 
             ioHandler = new IOHandler(input, new PrintStream(output));
-            npc = new NPC(ioHandler, player,NpcTypes.Mariel);
+            npc = new NPCMariel(ioHandler, player);
 
             npc.writeEventToIOHandler();
 
