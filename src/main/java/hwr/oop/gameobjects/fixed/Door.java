@@ -16,7 +16,7 @@ public class Door implements FixedObject {
     }
 
     @Override
-    public void writeEventToIOHandler() {
+    public void addEventToOutput() {
         if(player.hasKey()){
             ioHandler.addToOutputBuffer("You opened the door!");
             player.setHasOpenedDoor(true);

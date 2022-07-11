@@ -21,7 +21,7 @@ public class NPC implements FixedObject {
     }
 
     @Override
-    public void writeEventToIOHandler() {
+    public void addEventToOutput() {
         if (playerSpokeToNPC)
             ioHandler.addToOutputBuffer("You already spoke to this NPC.");
         else

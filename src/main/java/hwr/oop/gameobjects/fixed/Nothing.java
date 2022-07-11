@@ -16,7 +16,7 @@ public class Nothing implements FixedObject {
     }
 
     @Override
-    public void writeEventToIOHandler() {
+    public void addEventToOutput() {
         ioHandler.addToOutputBuffer("");
     }
 }

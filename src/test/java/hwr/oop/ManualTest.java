@@ -6,15 +6,16 @@ import org.junit.jupiter.api.Test;
 public class ManualTest {
     Game game;
     IIOHandler ioHandler;
-    Levels level;
+    LevelManager levelManager;
 
     @Test
     @Disabled
     void manualTestLevel1(){
 
-        level = new Levels();
-        game = level.getLevel(1);
-        ioHandler = level.getIOHandler();
+        ioHandler = new IOHandler(System.in, System.out);
+        levelManager = new LevelManager(ioHandler);
+        game = levelManager.getLevel(1);
+        game.welcome();
         int i = 1;
         while (true){
 
@@ -23,7 +24,7 @@ public class ManualTest {
             if(game.gameOver()){
                 String tryAgain = ioHandler.requestStringInput("Do you wanna try again?\n Yes/No");
                 if(!(tryAgain=="2")){
-                    game = level.getLevel(1);
+                    game = levelManager.getLevel(1);
                     ioHandler.writeOutputAndClearBuffer();
                 }
                 else{
@@ -56,7 +57,7 @@ public class ManualTest {
                 String nextLevel = ioHandler.requestStringInput("You have won the Level!! Wanna go to the next Level?\n");
                 if(!(nextLevel=="2")){
                     i++;
-                    game = level.getLevel(i);
+                    game = levelManager.getLevel(i);
                     if(game==null){
                         ioHandler.addToOutputBuffer("You completed the game!");
                         break;

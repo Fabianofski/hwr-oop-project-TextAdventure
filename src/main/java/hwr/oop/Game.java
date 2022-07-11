@@ -3,7 +3,7 @@ package hwr.oop;
 import hwr.oop.gameobjects.fixed.*;
 import hwr.oop.gameobjects.versatile.*;
 
-import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Game {
@@ -12,7 +12,7 @@ public class Game {
     private Player player;
     private Ghost ghost;
     private IIOHandler ioHandler;
-
+    Random random;
     public Ghost getGhost() {
         return ghost;
     }
@@ -23,9 +23,16 @@ public class Game {
         this.gameField = level;
         this.player = player;
         this.ghost = ghost;
+        this.random = new Random();
     }
 
-    public void welcome(){
+    public Game(FixedObject[][] level, IIOHandler ioHandler, Player player, Ghost ghost, int seed) {
+        this(level, ioHandler,player,ghost);
+        this.random =  new Random(seed);
+    }
+
+
+        public void welcome(){
         ioHandler.addToOutputBuffer(
                 "             /` './`\\\n" +
                 "            ;     \\  \\  ___\n" +
@@ -61,18 +68,18 @@ public class Game {
                 "Oh, and don't get caught by the ghost.\n" +
                 "---------------------------------------------------\n");
         ioHandler.writeOutputAndClearBuffer();
-        writeGameStateToIOHandler();
+        printGameFieldToOutput();
     }
 
     public void welcomeToNextLevel(){
-        writeGameStateToIOHandler();
+        printGameFieldToOutput();
         ioHandler.addToOutputBuffer("\n------------------------------------------------\n");
         ioHandler.addToOutputBuffer("You opened the door...And a new room opened before your eyes.");
     }
 
     public void proceedWithTurn(String direction){
         player.turn(direction);
-        writeToIOHandler();
+        printGameToOutput();
     }
 
     public void proceedWithMove(int moveAmount){
@@ -88,7 +95,7 @@ public class Game {
                 break;
             }
         }
-        writeToIOHandler();
+        printGameToOutput();
         if(playerRanAgainstWall) {
             ioHandler.addToOutputBuffer("\n You can't run against the Wall! It hurts!" +
                 "\nDamage taken: 1\nLife left:"+player.getLives());
@@ -105,7 +112,7 @@ public class Game {
     private void checkIfPlayerWillTrip(int moveAmount) {
         if(moveAmount < 2) return;
 
-        int randomNum = ThreadLocalRandom.current().nextInt(1, 6);
+        int randomNum = random.nextInt(6) ;
         if(randomNum==5){
             player.harmPlayer(1);
             ioHandler.addToOutputBuffer("\nDon't run so fast! You tripped over a broken plank!" +
@@ -113,14 +120,14 @@ public class Game {
         }
     }
 
-    private void writeToIOHandler() {
-        writeGameStateToIOHandler();
+    private void printGameToOutput() {
+        printGameFieldToOutput();
         Position playerPos = player.getPosition();
         FixedObject fixedObject = gameField[playerPos.x][playerPos.y];
-        fixedObject.writeEventToIOHandler();
+        fixedObject.addEventToOutput();
     }
 
-    private void writeGameStateToIOHandler(){
+    private void printGameFieldToOutput(){
         StringBuilder GameState = new StringBuilder();
         GameState.append("0  1  2  3  4  5  6  7  8  9\n");
         for (int y = 0; y < fieldSize; y++) {
@@ -147,7 +154,7 @@ public class Game {
     }
 
     public boolean gameOver(){
-        if(player.getLives()==0|ghost.ghostIsAtPlayer()){
+        if(player.getLives()==0 || ghost.ghostIsAtPlayer()){
             ioHandler.addToOutputBuffer("     .-.\n" +
                     "   .'   `.\n" +
                     "   :g g   :\n" +

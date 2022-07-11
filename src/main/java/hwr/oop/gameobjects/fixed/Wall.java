@@ -20,7 +20,7 @@ public class Wall implements FixedObject {
 
 
     @Override
-    public void writeEventToIOHandler() {
+    public void addEventToOutput() {
         ioHandler.addToOutputBuffer("\nYou shouldn't be stuck in the wall!");
     }
 }

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.util.Random;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -43,7 +44,7 @@ public class GameTest {
 
             testLevel[5][6] = new Door(ioHandler, player);
 
-            game = new Game(testLevel, ioHandler, player, ghost);
+            game = new Game(testLevel, ioHandler, player, ghost, 5);
         }
 
         @Test
@@ -183,14 +184,9 @@ public class GameTest {
         }
         @Test
         void proceed_player_getsHurtIfRunning(){
+            game.proceedWithMove(3);
 
-            for (int i = 0; i <10 ; i++) {
-                game.proceedWithMove(3);
-                if (player.getLives()<3){
-                    break;
-                }
-            }
-            boolean lessLife = !(player.getLives()==3);
+            boolean lessLife = player.getLives() < 3;
             assertThat(lessLife).isEqualTo(true);
         }
 
