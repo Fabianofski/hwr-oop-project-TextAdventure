@@ -8,8 +8,8 @@ This repository contains a student project created for an ongoing lecture on obj
 
 ## Abstract
 
-"Abondened House" is a small text-based game, where you wander through an house, and try to get through it.
-To move through the house you have to find keys to the next rooms, and you also have to watch out from the ghost and other difficulties.
+"Abandoned House" is a small text-based game, where you wander through an house, and try to get through it.
+To move through the house you have to find keys to the next rooms, and you also have to watch out from the ghost and other obstacles.
 To start the game, start "ManualTest".
 ## Feature List
 
