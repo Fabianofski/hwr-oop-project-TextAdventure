@@ -29,7 +29,7 @@ public class NPCMilhouse extends NPC{
                 "/      |        o      |      \\\n" +
                 "       |               |      |" +
                 "\nMilhouse:\nWho are you? What do you want?!" +
-                "\nYou:\n I am searching for a Key!/ Ugh never mind...");
+                "\nYou:\n I am searching for a Key! (1) / Ugh never mind... (2)");
         if (response.equals("1")) {
             ioHandler.addToOutputBuffer("\nMilhouse:\nWhat? Wait lemme search...\n\nOh! I have got here something!");
             givePlayerKey();

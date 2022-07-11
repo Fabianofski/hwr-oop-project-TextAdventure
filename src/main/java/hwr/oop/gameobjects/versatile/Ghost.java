@@ -29,8 +29,8 @@ public class Ghost implements VersatileObject {
         return "G";
     }
 
-    public void setStartPosition(Position amountPos){
-        this.position = amountPos;
+    public void setPosition(Position newPosition){
+        this.position = newPosition;
     }
 
 
@@ -39,9 +39,9 @@ public class Ghost implements VersatileObject {
         position.add(amount);
     }
 
-    public void moveTowardsPosition(Position playerPos){
-        int yDistance = position.getYDistance(playerPos);
-        int xDistance = position.getXDistance(playerPos);
+    public void moveTowardsPosition(Position towardPosition){
+        int yDistance = position.getYDistance(towardPosition);
+        int xDistance = position.getXDistance(towardPosition);
 
         if(Math.abs(xDistance) > Math.abs(yDistance))
             moveAlongXAxis(xDistance);

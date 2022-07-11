@@ -4,7 +4,6 @@ import hwr.oop.gameobjects.fixed.*;
 import hwr.oop.gameobjects.versatile.*;
 
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Game {
     private FixedObject[][] gameField;
@@ -77,12 +76,25 @@ public class Game {
         ioHandler.addToOutputBuffer("You opened the door...And a new room opened before your eyes.");
     }
 
-    public void proceedWithTurn(String direction){
+    public void proceedWithTurn(int direction){
         player.turn(direction);
         printGameToOutput();
     }
 
     public void proceedWithMove(int moveAmount){
+        boolean playerRanAgainstWall = willPlayerRunAgainstWall(moveAmount);
+
+        printGameToOutput();
+
+        checkIfPlayerWillTrip(moveAmount);
+        if(playerRanAgainstWall)
+            ioHandler.addToOutputBuffer("\n You can't run against the Wall! It hurts!" +
+                "\nDamage taken: 1\nLife left:" + player.getLives());
+
+        ghost.moveTowardsPosition(player.getPosition());
+    }
+
+    private boolean willPlayerRunAgainstWall(int moveAmount) {
         boolean playerRanAgainstWall = false;
         for (int i = 0; i < moveAmount; i++) {
             player.moveByAmount(1);
@@ -95,17 +107,11 @@ public class Game {
                 break;
             }
         }
-        printGameToOutput();
-        if(playerRanAgainstWall) {
-            ioHandler.addToOutputBuffer("\n You can't run against the Wall! It hurts!" +
-                "\nDamage taken: 1\nLife left:"+player.getLives());
-        }
-        checkIfPlayerWillTrip(moveAmount);
-        ghost.moveTowardsPosition(player.getPosition());
+        return playerRanAgainstWall;
     }
 
-    private boolean checkForWallOnPosition(Position pos) {
-        FixedObject fixedObject = gameField[pos.getX()][pos.getY()];
+    private boolean checkForWallOnPosition(Position position) {
+        FixedObject fixedObject = gameField[position.getX()][position.getY()];
         return fixedObject instanceof Wall;
     }
 
@@ -129,28 +135,37 @@ public class Game {
 
     private void printGameFieldToOutput(){
         StringBuilder GameState = new StringBuilder();
-        GameState.append("0  1  2  3  4  5  6  7  8  9\n");
-        for (int y = 0; y < fieldSize; y++) {
-            GameState.append(y + 1+"  ");
-            for (int x = 0; x < fieldSize; x++) {
-                Position playerPos = player.getPosition();
-                boolean whatPlayerSees = Math.abs(playerPos.getX() - x) <= 1 && Math.abs(playerPos.getY() - y) <= 1;
 
-                if(whatPlayerSees){
-                    if (ghost.getPosition().equals(new Position(x, y)))
-                        GameState.append(ghost.getObjectIcon()+"  ");
-                    else if (player.getPosition().equals(new Position(x, y)))
-                        GameState.append(player.getObjectIcon()+"  ");
-                    else
-                        GameState.append(gameField[x][y].getObjectIcon()+"  ");
-                }
-                else
-                    GameState.append("?"+"  ");
+        for (int i = 0; i <= fieldSize; i++)
+            GameState.append(i).append("  ");
+        GameState.append("\n");
+
+        for (int y = 0; y < fieldSize; y++) {
+            GameState.append(y + 1).append("  ");
+            for (int x = 0; x < fieldSize; x++) {
+                renderObjectIcons(GameState, y, x);
             }
             GameState.append("\n");
         }
+
         ioHandler.addToOutputBuffer(GameState.toString());
         ioHandler.addToOutputBuffer("\n------------------------------------------------\n");
+    }
+
+    private void renderObjectIcons(StringBuilder GameState, int y, int x) {
+        Position playerPos = player.getPosition();
+        boolean playerSeesThisPosition = Math.abs(playerPos.getX() - x) <= 1 && Math.abs(playerPos.getY() - y) <= 1;
+
+        if(playerSeesThisPosition){
+            if (ghost.getPosition().equals(new Position(x, y)))
+                GameState.append(ghost.getObjectIcon()).append("  ");
+            else if (player.getPosition().equals(new Position(x, y)))
+                GameState.append(player.getObjectIcon()).append("  ");
+            else
+                GameState.append(gameField[x][y].getObjectIcon()).append("  ");
+        }
+        else
+            GameState.append("?"+"  ");
     }
 
     public boolean gameOver(){
@@ -176,7 +191,7 @@ public class Game {
         }
     }
 
-    public boolean GameWon(){
+    public boolean levelIsCompleted(){
         return player.getHasOpenedDoor();
     }
 

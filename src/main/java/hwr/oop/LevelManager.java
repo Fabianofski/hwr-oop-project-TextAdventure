@@ -20,18 +20,12 @@ public class LevelManager {
         this.length = 9;
 
         levels = new ArrayList<>();
-        levels.add(Level1());
-        levels.add(Level2());
-        levels.add(Level3());
+        levels.add(buildLevel1());
+        levels.add(buildLevel2());
+        levels.add(buildLevel3());
     }
 
-    public Game getLevel(int i) {
-        currentLevel = i;
-        if(levels.size() > i) return levels.get(i);
-        else return null;
-    }
-
-    private Game Level1(){
+    private Game buildLevel1(){
         Position playerPos = new Position(5, 5);
         Position ghostPos = new Position(6, 2);
         FixedObject[][] level = fillLevelWithBasicObjects(playerPos, ghostPos);
@@ -47,7 +41,7 @@ public class LevelManager {
         return new Game(level, ioHandler, player, ghost);
     }
 
-    private Game Level2(){
+    private Game buildLevel2(){
         Position playerPos = new Position(1, 1);
         Position ghostPos = new Position(0, 3);
         FixedObject[][] level = fillLevelWithBasicObjects(playerPos, ghostPos);
@@ -58,7 +52,7 @@ public class LevelManager {
         return new Game(level, ioHandler, player, ghost);
     }
 
-    private Game Level3(){
+    private Game buildLevel3(){
         Position playerPos = new Position(6, 8);
         Position ghostPos = new Position(8, 5);
         FixedObject[][] level = fillLevelWithBasicObjects(playerPos, ghostPos);
@@ -95,9 +89,13 @@ public class LevelManager {
         player = new Player(playerPos, this.length);
         player.setPosition(playerPos);
         ghost = new Ghost(ghostPos, player);
-        ghost.setStartPosition(ghostPos);
-        player.restart();
+        ghost.setPosition(ghostPos);
+    }
 
+    public Game getLevel(int i) {
+        currentLevel = i;
+        if(levels.size() > i) return levels.get(i);
+        else return null;
     }
 
     public int getCurrentLevel(){

@@ -4,15 +4,6 @@ import java.util.Objects;
 
 public class Position {
     int x;
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
     int y;
 
     public Position(){
@@ -29,6 +20,25 @@ public class Position {
         y += pos.y;
     }
 
+    public int distance(Position pos){
+        return Math.abs(getXDistance(pos)) + Math.abs(getYDistance(pos));
+    }
+
+    public int getYDistance(Position pos){
+        return this.y - pos.y;
+    }
+
+    public int getXDistance(Position pos){
+        return this.x - pos.x;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -36,16 +46,6 @@ public class Position {
         if (o == null || getClass() != o.getClass()) return false;
         Position position = (Position) o;
         return y == position.y && x == position.x;
-    }
-
-    public int distance(Position pos){
-        return Math.abs(getXDistance(pos)) + Math.abs(getYDistance(pos));
-    }
-    public int getYDistance(Position pos){
-        return this.y - pos.y;
-    }
-    public int getXDistance(Position pos){
-        return this.x - pos.x;
     }
 
     @Override
@@ -60,6 +60,4 @@ public class Position {
                 ",y=" + y +
                 '}';
     }
-
-
 }

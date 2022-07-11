@@ -27,7 +27,7 @@ public class NPCMariel extends NPC{
                         "\nMariel:\n" +
                         "Hello Dear, I heard you are searching for something?\n" +
                         "\nYou:" +
-                        "\nYes, can I have a Key? / No.");
+                        "\nYes, can I have a Key? (1) / No. (2)");
         if (response.equals("1")) {
             ioHandler.addToOutputBuffer("\nMariel:\nHere is your key!");
             ioHandler.writeOutputAndClearBuffer();

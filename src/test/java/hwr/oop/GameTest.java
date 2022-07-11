@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
-import java.util.Random;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -51,7 +50,7 @@ public class GameTest {
         void gameStart_Field() {
             game.welcome();
             String expectedGameState =
-            "0  1  2  3  4  5  6  7  8  9\n" +
+            "0  1  2  3  4  5  6  7  8  9  \n" +
                     "1  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
                     "2  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
                     "3  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
@@ -70,12 +69,12 @@ public class GameTest {
         @Test
         void gameWasWon_ifOpenedDoor(){
             player.setHasOpenedDoor(true);
-            assertThat(game.GameWon()).isEqualTo(true);
+            assertThat(game.levelIsCompleted()).isEqualTo(true);
         }
         @Test
         void gameNotWon_ifOpenedDoor(){
             player.setHasOpenedDoor(false);
-            assertThat(game.GameWon()).isEqualTo(false);
+            assertThat(game.levelIsCompleted()).isEqualTo(false);
         }
         @Test
         void player_cantRun_pastWall(){
@@ -97,7 +96,7 @@ public class GameTest {
         @Test
         void proceed_playerMovesOnDoor_isFilledWithGameFieldAndDoorEvent() {
             String expectedGameState =
-                    "0  1  2  3  4  5  6  7  8  9\n" +
+                    "0  1  2  3  4  5  6  7  8  9  \n" +
                             "1  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
                             "2  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
                             "3  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
@@ -122,7 +121,7 @@ public class GameTest {
         @Test
         void proceed_playerTurnsRight_isFilledWithStartingFieldAndTurnedPlayer() {
             String expectedGameState =
-                    "0  1  2  3  4  5  6  7  8  9\n" +
+                    "0  1  2  3  4  5  6  7  8  9  \n" +
                             "1  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
                             "2  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
                             "3  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
@@ -136,14 +135,14 @@ public class GameTest {
                             "------------------------------------------------\n";
             ioHandler.clearOutputBuffer();
 
-            game.proceedWithTurn("1");
+            game.proceedWithTurn(1);
 
             String printed = ioHandler.getOutputBuffer();
             assertThat(printed).isEqualTo(expectedGameState);
         }
         @Test
         void gameOver_ghostIsAtPlayer_ghostShows() {
-            game.getGhost().setStartPosition(new Position(5,5));
+            game.getGhost().setPosition(new Position(5,5));
             game.gameOver();
             String expected = "     .-.\n" +
                     "   .'   `.\n" +
@@ -164,7 +163,7 @@ public class GameTest {
         @Test
         void gameOver_ghostIsAtPlayer_gameIsOver() {
 
-            game.getGhost().setStartPosition(new Position(5,5));
+            game.getGhost().setPosition(new Position(5,5));
             boolean gameOver = game.gameOver();
 
             assertThat(gameOver).isTrue();
@@ -195,7 +194,7 @@ public class GameTest {
             ioHandler.clearOutputBuffer();
             game.welcomeToNextLevel();
             String output =
-                    "0  1  2  3  4  5  6  7  8  9\n" +
+                    "0  1  2  3  4  5  6  7  8  9  \n" +
                             "1  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
                             "2  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +
                             "3  ?  ?  ?  ?  ?  ?  ?  ?  ?  \n" +

@@ -42,14 +42,14 @@ public class VersatileObjectsTest {
         @Test
         void Ghost_setStartPosition_setsStartPosition() {
             Position startPos = new Position(3,3);
-            ghost.setStartPosition(startPos);
+            ghost.setPosition(startPos);
             assertThat(ghost.getPosition()).isEqualTo(startPos);
         }
 
         @Test
         void Ghost_moveByAmount_movesByAmount(){
             Position startPos = new Position(3,3);
-            ghost.setStartPosition(startPos);
+            ghost.setPosition(startPos);
 
             Position amount = new Position(1,1);
             ghost.moveByAmount(amount);
@@ -63,7 +63,7 @@ public class VersatileObjectsTest {
         @Test
         void Ghost_IsAtPlayer_returnsTrue() {
             player.moveByAmount(new Position(0,3));
-            ghost.setStartPosition(new Position(0,3));
+            ghost.setPosition(new Position(0,3));
             boolean isAtPlayer = ghost.ghostIsAtPlayer();
             assertThat(isAtPlayer).isTrue();
         }
@@ -71,7 +71,7 @@ public class VersatileObjectsTest {
         @Test
         void Ghost_IsAtPlayer_returnsFalse() {
             player.moveByAmount(new Position(0,3));
-            ghost.setStartPosition(new Position(3,4));
+            ghost.setPosition(new Position(3,4));
             boolean isAtPlayer = ghost.ghostIsAtPlayer();
             assertThat(isAtPlayer).isFalse();
         }
@@ -85,7 +85,7 @@ public class VersatileObjectsTest {
 
         @Test
         void Ghost_goesLeftTowardsPosition(){
-            ghost.setStartPosition(new Position(5,0));
+            ghost.setPosition(new Position(5,0));
             ghost.moveTowardsPosition(new Position(3,0));
 
             Position ghostPos = ghost.getPosition();
@@ -96,7 +96,7 @@ public class VersatileObjectsTest {
 
         @Test
         void Ghost_goesRightTowardsPosition(){
-            ghost.setStartPosition(new Position(3,0));
+            ghost.setPosition(new Position(3,0));
             ghost.moveTowardsPosition(new Position(5,0));
 
             Position ghostPos = ghost.getPosition();
@@ -107,7 +107,7 @@ public class VersatileObjectsTest {
 
         @Test
         void Ghost_goesUpTowardsPlayer(){
-            ghost.setStartPosition(new Position(0,5));
+            ghost.setPosition(new Position(0,5));
             ghost.moveTowardsPosition(new Position(0,3));
 
             Position ghostPos = ghost.getPosition();
@@ -118,7 +118,7 @@ public class VersatileObjectsTest {
 
         @Test
         void Ghost_goesDownTowardsPlayer(){
-            ghost.setStartPosition(new Position(0,3));
+            ghost.setPosition(new Position(0,3));
             ghost.moveTowardsPosition(new Position(0,5));
 
             Position ghostPos = ghost.getPosition();
@@ -178,22 +178,19 @@ public class VersatileObjectsTest {
 
         @Test
         void Player_turnPlayer_looksInRightDirection() {
+            player.turn(1);
             String icon = player.getObjectIcon();
-            assertThat(icon).isEqualTo("V");
-
-            player.turn("1");
-            icon = player.getObjectIcon();
             assertThat(icon).isEqualTo("<");
 
-            player.turn("2");
-            icon = player.getObjectIcon();
-            assertThat(icon).isEqualTo(">");
-
-            player.turn("3");
+            player.turn(2);
             icon = player.getObjectIcon();
             assertThat(icon).isEqualTo("^");
 
-            player.turn("4");
+            player.turn(3);
+            icon = player.getObjectIcon();
+            assertThat(icon).isEqualTo(">");
+
+            player.turn(4);
             icon = player.getObjectIcon();
             assertThat(icon).isEqualTo("V");
         }
@@ -205,13 +202,7 @@ public class VersatileObjectsTest {
 
             assertThat(hasKey).isTrue();
         }
-        @Test
-        void Player_restarted(){
-            player.restart();
-            assertThat(player.getLives()).isEqualTo(3);
-            assertThat(player.hasKey()).isEqualTo(false);
-            assertThat(player.getHasOpenedDoor()).isEqualTo(false);
-        }
+        
         @Test
         void Player_setPosition(){
             Position expectedPos = new Position(2,5);
