@@ -10,20 +10,23 @@ This repository contains a student project created for an ongoing lecture on obj
 
 "Abandoned House" is a small text-based game, where you wander through an house, and try to get through it.
 To move through the house you have to find keys to the next rooms, and you also have to watch out from the ghost and other obstacles.
-To start the game, start "ManualTest".
+To start the game, start "ManualTest" and Resize the Console for a better experience.
 ## Feature List
 
 [TODO]: # (For each feature implemented, add a row to the table!)
 
 | Number | Feature      | Tests |
 |--------|--------------|-------|
-| 1      | fixedObjects | 18    |
-| 2      | Ghost        | 9     |
-| 3      | Player       | 9     |
-| 4      | IOHandler    | 5     |
-| 5      | Levels       | 4     |
-| 6      | Position     | 4     |
-| 7      | Game         | 13    |
+| 1      | Game         | 11    |
+| 2      | IOHandler    | 6     |
+| 3      | LevelManager | 4     |
+| 4      | Player       | 8     |
+| 5      | Ghost        | 10    |
+| 6      | NPC          | 9     |
+| 7      | Door         | 4     |
+| 8      | Nothing      | 3     |
+| 9      | Wall         | 3     |
+| 10     | Position     | 4     |
 
 
 ## Additional Dependencies
