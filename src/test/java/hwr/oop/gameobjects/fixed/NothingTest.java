@@ -34,13 +34,13 @@ public class NothingTest {
     }
 
     @Test
-    void nothing_getObjectIcon_iconIsUnderscore() {
+    void getObjectIcon_iconIsUnderscore() {
         String icon = nothing.getObjectIcon();
         assertThat(icon).isEqualTo("_");
     }
 
     @Test
-    void nothing_writeEventIOHandler_writesToIOHandler() {
+    void addEventToOutput_printsNothingToConsole() {
         nothing.addEventToOutput();
         assertThat(ioHandler.getOutputBuffer()).isEqualTo("");
     }

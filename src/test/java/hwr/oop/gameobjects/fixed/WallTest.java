@@ -34,13 +34,13 @@ public class WallTest {
     }
 
     @Test
-    void wall_getObjectIcon_iconIsHashtag() {
+    void getObjectIcon_iconIsHashtag() {
         String icon = wall.getObjectIcon();
         assertThat(icon).isEqualTo("#");
     }
 
     @Test
-    void wall_writeEventIOHandler_writesToIOHandler() {
+    void addEventToOutput_printsShouldNotBeHereMessage() {
         wall.addEventToOutput();
 
         assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nYou shouldn't be stuck in the wall!");

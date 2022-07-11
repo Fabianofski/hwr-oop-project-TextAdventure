@@ -20,28 +20,31 @@ public class GhostTest {
     }
 
     @Test
-    void Ghost_setStartPosition_setsStartPosition() {
-        Position startPos = new Position(3, 3);
-        ghost.setPosition(startPos);
-        assertThat(ghost.getPosition()).isEqualTo(startPos);
+    void getObjectIcon_iconIsLetterG() {
+        String icon = ghost.getObjectIcon();
+        assertThat(icon).isEqualTo("G");
     }
 
     @Test
-    void Ghost_moveByAmount_movesByAmount() {
-        Position startPos = new Position(3, 3);
-        ghost.setPosition(startPos);
+    void setPosition_setGhostPositionToNewPosition_ghostMovedToNewPosition() {
+        Position newPosition = new Position(3, 3);
+        ghost.setPosition(newPosition);
+        assertThat(ghost.getPosition()).isEqualTo(newPosition);
+    }
 
+    @Test
+    void moveByAmount_moveGhostByOneDiagonally_ghostMovedToNewPosition() {
         Position amount = new Position(1, 1);
         ghost.moveByAmount(amount);
 
-        Position expectedPos = new Position(4, 4);
+        Position expectedPos = new Position(1, 1);
         Position ghostPos = ghost.getPosition();
 
         assertThat(ghostPos).isEqualTo(expectedPos);
     }
 
     @Test
-    void Ghost_IsAtPlayer_returnsTrue() {
+    void isAtPlayer_ghostHasSamePositionAsPlayer_ghostIsAtPlayer() {
         player.moveByAmount(new Position(0, 3));
         ghost.setPosition(new Position(0, 3));
         boolean isAtPlayer = ghost.ghostIsAtPlayer();
@@ -49,7 +52,7 @@ public class GhostTest {
     }
 
     @Test
-    void Ghost_IsAtPlayer_returnsFalse() {
+    void isAtPlayer_ghostHasOtherPositionAsPlayer_ghostIsNotAtPlayer() {
         player.moveByAmount(new Position(0, 3));
         ghost.setPosition(new Position(3, 4));
         boolean isAtPlayer = ghost.ghostIsAtPlayer();
@@ -57,14 +60,14 @@ public class GhostTest {
     }
 
     @Test
-    void Ghost_hitPlayerAndDealDamage_DealsDamage() {
+    void hitPlayerAndDealDamage_ghostHitsThePlayer_playerNowLostOneLife() {
         int lives = player.getLives();
         ghost.hitPlayerAndDealDamage();
         assertThat(lives - 1).isEqualTo(player.getLives());
     }
 
     @Test
-    void Ghost_goesLeftTowardsPosition() {
+    void moveTowardsPosition_ghostStandsRightOfPosition_ghostGoesLeft() {
         ghost.setPosition(new Position(5, 0));
         ghost.moveTowardsPosition(new Position(3, 0));
 
@@ -75,7 +78,7 @@ public class GhostTest {
     }
 
     @Test
-    void Ghost_goesRightTowardsPosition() {
+    void moveTowardsPosition_ghostStandsLeftOfPosition_ghostGoesRight() {
         ghost.setPosition(new Position(3, 0));
         ghost.moveTowardsPosition(new Position(5, 0));
 
@@ -86,7 +89,7 @@ public class GhostTest {
     }
 
     @Test
-    void Ghost_goesUpTowardsPlayer() {
+    void moveTowardsPosition_ghostStandsBeneathOfPosition_ghostGoesUp() {
         ghost.setPosition(new Position(0, 5));
         ghost.moveTowardsPosition(new Position(0, 3));
 
@@ -97,7 +100,7 @@ public class GhostTest {
     }
 
     @Test
-    void Ghost_goesDownTowardsPlayer() {
+    void moveTowardsPosition_ghostStandsAboveOfPosition_ghostGoesDown() {
         ghost.setPosition(new Position(0, 3));
         ghost.moveTowardsPosition(new Position(0, 5));
 

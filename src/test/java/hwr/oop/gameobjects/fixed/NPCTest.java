@@ -21,53 +21,80 @@ public class NPCTest {
 
     @BeforeEach
     void setUp() {
-        ByteArrayInputStream input = new ByteArrayInputStream("TestResponse".getBytes());
+        ByteArrayInputStream input = new ByteArrayInputStream("1".getBytes());
         ByteArrayOutputStream output = new ByteArrayOutputStream();
 
         ioHandler = new IOHandler(input, new PrintStream(output));
         player = new Player(new Position(), 9);
-        npc = new NPCMariel(ioHandler, player);
+        npc = new NPC(ioHandler, player);
     }
 
     @Test
     void npc_isFieldObject() {
-        npc = new NPCMariel(ioHandler, player);
         assertThat(npc)
                 .isInstanceOf(FixedObject.class)
                 .isInstanceOf(NPC.class);
     }
 
     @Test
-    void npc_getObjectIcon_iconIsO() {
+    void getObjectIcon_iconIsLetterO() {
         String icon = npc.getObjectIcon();
         assertThat(icon).isEqualTo("O");
     }
 
     @Test
-    void npc_stupidNPC_writeEventIOHandlerFirstResponse_writesToIOHandler() {
-        npc = new NPC(ioHandler, player);
+    void addEventToOutput_generalNPCIsTalkedTo_AnswersFirstResponse() {
         npc.addEventToOutput();
         assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nThis is a stupid NPC.");
     }
 
     @Test
-    void npc_Mariel_writeEventIOHandlerFirstResponse_writesToIOHandler() {
-        npc.addEventToOutput();
-        assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nYep.");
-    }
-
-    @Test
-    void npc_Milhouse_writeEventIOHandlerFirstResponse_writesToIOHandler() {
+    void addEventToOutput_MilhouseIsTalkedTo_AnswersFirstResponseAndGivesKey() {
         npc = new NPCMilhouse(ioHandler, player);
+
         npc.addEventToOutput();
-        assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nWeirdo....");
+
+        String expected =
+                "\n" +
+                        "Milhouse:\n" +
+                        "What? Wait lemme search...\n" +
+                        "\n" +
+                        "Oh! I have got here something!\n" +
+                        "\n" +
+                        "You received a Key!\n" +
+                        "                   __\n" +
+                        "                  /o \\_____\n" +
+                        "                  \\__/-=\"=\"`";
+        assertThat(ioHandler.getOutputBuffer()).isEqualTo(expected);
+
+        boolean playerHasKey = player.hasKey();
+        assertThat(playerHasKey).isTrue();
     }
 
     @Test
-    void npc_Michelle_writeEventIOHandlerFirstResponse_writesToIOHandler() {
+    void addEventToOutput_MarielIsTalkedTo_AnswersFirstResponseAndGivesKey() {
+        npc = new NPCMariel(ioHandler, player);
+
+        npc.addEventToOutput();
+
+        String expected =
+                "\n\nYou received a Key!\n" +
+                        "                   __\n" +
+                        "                  /o \\_____\n" +
+                        "                  \\__/-=\"=\"`";
+        assertThat(ioHandler.getOutputBuffer()).isEqualTo(expected);
+
+        boolean playerHasKey = player.hasKey();
+        assertThat(playerHasKey).isTrue();
+    }
+
+    @Test
+    void addEventToOutput_MichelleIsTalkedTo_AnswersFirstResponse() {
         npc = new NPCMichelle(ioHandler, player);
         npc.addEventToOutput();
-        assertThat(ioHandler.getOutputBuffer()).isEqualTo("    .--..-\"\"\"\"-..--.\n" +
+
+        String expected =
+                "    .--..-\"\"\"\"-..--.\n" +
                 "   ///`/////////\\`\\\\\\\n" +
                 "   ||/ |///\"\"\\\\\\| \\||\n" +
                 "   ##  (  6. 6  )  ##\n" +
@@ -76,17 +103,13 @@ public class NPCTest {
                 "      /`  '--'  `\\\n" +
                 "     /    _,,_    \\\n" +
                 "Michelle:\n" +
-                " Uhm Sorry who are you? Momma doesn't allow me to speak with strangers...");
+                " Uhm Sorry who are you? Momma doesn't allow me to speak with strangers...";
+        assertThat(ioHandler.getOutputBuffer()).isEqualTo(expected);
     }
 
     @Test
-    void npc_triggeredEventTwoTimes_writesToIoHandler() {
-        ByteArrayInputStream input = new ByteArrayInputStream("1".getBytes());
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        ioHandler = new IOHandler(input, new PrintStream(output));
-        npc = new NPCMariel(ioHandler, player);
+    void addEventToOutput_generalNPCIsTalkedToTwice_printsAlreadyTalkedToNPCMessage() {
         npc.addEventToOutput();
-
         ioHandler.clearOutputBuffer();
         npc.addEventToOutput();
 
@@ -94,47 +117,26 @@ public class NPCTest {
     }
 
     @Test
-    void npc_jonas_writeEventIOHandlerSecondResponse_writesToIOHandlerAndPlayerHasKey() {
-        ByteArrayInputStream input = new ByteArrayInputStream("1".getBytes());
+    void addEventToOutput_MarielIsTalkedTo_AnswersSecondResponse() {
+        ByteArrayInputStream input = new ByteArrayInputStream("2".getBytes());
         ByteArrayOutputStream output = new ByteArrayOutputStream();
 
         ioHandler = new IOHandler(input, new PrintStream(output));
-        npc = new NPCMilhouse(ioHandler, player);
 
+        npc = new NPCMariel(ioHandler, player);
         npc.addEventToOutput();
-
-        assertThat(ioHandler.getOutputBuffer()).isEqualTo("\n" +
-                "Milhouse:\n" +
-                "What? Wait lemme search...\n" +
-                "\n" +
-                "Oh! I have got here something!\n" +
-                "\n" +
-                "You received a Key!\n" +
-                "                   __\n" +
-                "                  /o \\_____\n" +
-                "                  \\__/-=\"=\"`");
-
-        boolean playerHasKey = player.hasKey();
-        assertThat(playerHasKey).isTrue();
+        assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nYep.");
     }
 
     @Test
-    void npc_writeEventIOHandlerSecondResponse_writesToIOHandlerAndPlayerHasKey() {
-        ByteArrayInputStream input = new ByteArrayInputStream("1".getBytes());
+    void addEventToOutput_MilhouseIsTalkedTo_AnswersSecondResponse() {
+        ByteArrayInputStream input = new ByteArrayInputStream("2".getBytes());
         ByteArrayOutputStream output = new ByteArrayOutputStream();
 
         ioHandler = new IOHandler(input, new PrintStream(output));
-        npc = new NPCMariel(ioHandler, player);
 
+        npc = new NPCMilhouse(ioHandler, player);
         npc.addEventToOutput();
-
-        assertThat(ioHandler.getOutputBuffer()).isEqualTo(
-                "\n\nYou received a Key!\n" +
-                        "                   __\n" +
-                        "                  /o \\_____\n" +
-                        "                  \\__/-=\"=\"`");
-
-        boolean playerHasKey = player.hasKey();
-        assertThat(playerHasKey).isTrue();
+        assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nWeirdo....");
     }
 }

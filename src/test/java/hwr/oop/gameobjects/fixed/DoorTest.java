@@ -18,6 +18,7 @@ public class DoorTest {
 
     IIOHandler ioHandler;
     Door door;
+    Player player;
 
     @BeforeEach
     void setUp() {
@@ -25,7 +26,8 @@ public class DoorTest {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
 
         ioHandler = new IOHandler(input, new PrintStream(output));
-        door = new Door(ioHandler, new Player(new Position(2, 3), 9));
+        player = new Player(new Position(2, 3), 9);
+        door = new Door(ioHandler, player);
     }
 
     @Test
@@ -36,21 +38,20 @@ public class DoorTest {
     }
 
     @Test
-    void door_getObjectIcon_iconIs0() {
+    void getObjectIcon_iconIsLetterH() {
         String icon = door.getObjectIcon();
         assertThat(icon).isEqualTo("H");
     }
 
     @Test
-    void door_writeEventIOHandler_writesToIOHandler() {
+    void addEventToOutput_playerHasNoKey_printsNoKeyMessage() {
         door.addEventToOutput();
-
-        assertThat(ioHandler.getOutputBuffer()).isEqualTo("\nYou don't have a Key to open the door.");
+        String expected = "\nYou don't have a Key to open the door.";
+        assertThat(ioHandler.getOutputBuffer()).isEqualTo(expected);
     }
 
     @Test
-    void door_Opened() {
-        Player player = new Player(new Position(2, 3), 9);
+    void addEventToOutput_playerHasKey_printsSuccessMessage() {
         player.giveKey();
         door = new Door(ioHandler, player);
         door.addEventToOutput();

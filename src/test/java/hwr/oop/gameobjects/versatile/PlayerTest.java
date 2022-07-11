@@ -17,14 +17,14 @@ public class PlayerTest {
     }
 
     @Test
-    void Player_moveByPositionAmount_movesToNewPosition() {
+    void moveByPositionAmount_addAmountToCurrentPosition_movesToNewPosition() {
         Position amount = new Position(3, 3);
         player.moveByAmount(amount);
         assertThat(player.getPosition()).isEqualTo(amount);
     }
 
     @Test
-    void Player_moveByIntAmount_movesToNewPosition() {
+    void moveByIntAmount_playerLooksDownAndMoves_playerMoves3TilesBelowStartingPos() {
         int amount = 3;
         String viewDirection = player.getObjectIcon();
         assertThat(viewDirection).isEqualTo("V");
@@ -39,14 +39,14 @@ public class PlayerTest {
     }
 
     @Test
-    void Player_harmPlayer_dealsDamageToPlayer() {
+    void harmPlayer_playerGetsHarmed_playerNowLostOneLife() {
         int lives = player.getLives();
         player.harmPlayer(2);
         assertThat(player.getLives()).isEqualTo(lives - 2);
     }
 
     @Test
-    void Player_isDead_playerIsDeadWhenDealtEnoughDamage() {
+    void isDead_playerHasNoLivesLeft_playerIsDead() {
         int lives = player.getLives();
         player.harmPlayer(lives);
         boolean isDead = player.isDead();
@@ -54,7 +54,7 @@ public class PlayerTest {
     }
 
     @Test
-    void Player_isDead_playerIsAliveWhenNotDealtEnoughDamage() {
+    void isDead_playerHasLivesLeft_playerIsNotDead() {
         int lives = player.getLives();
         player.harmPlayer(lives - 1);
         boolean isDead = player.isDead();
@@ -62,7 +62,7 @@ public class PlayerTest {
     }
 
     @Test
-    void Player_turnPlayer_looksInRightDirection() {
+    void turnPlayer_getObjectIcon_playerTurnsInEveryDirection_returnsCorrectIconForEachDirection() {
         player.turn(1);
         String icon = player.getObjectIcon();
         assertThat(icon).isEqualTo("<");
@@ -81,7 +81,7 @@ public class PlayerTest {
     }
 
     @Test
-    void Player_givePlayerKey_playerNowHasKey() {
+    void giveKey_playerGetsKey_playerNowHasKey() {
         player.giveKey();
         boolean hasKey = player.hasKey();
 
@@ -89,7 +89,7 @@ public class PlayerTest {
     }
 
     @Test
-    void Player_setPosition() {
+    void setPosition_setPlayerPositionToNewPosition_playerMovedToNewPosition() {
         Position expectedPos = new Position(2, 5);
         player.setPosition(new Position(2, 5));
         assertThat(player.getPosition()).isEqualTo(expectedPos);

@@ -30,6 +30,7 @@ public class NPC implements FixedObject {
 
     public void talkToNPC(){
         ioHandler.addToOutputBuffer("\nThis is a stupid NPC.");
+        playerSpokeToNPC = true;
     }
 
     public void givePlayerKey(){

@@ -20,5 +20,6 @@ public class NPCMichelle extends NPC{
                 "      /`  '--'  `\\\n" +
                 "     /    _,,_    \\"+
                 "\nMichelle:\n Uhm Sorry who are you? Momma doesn't allow me to speak with strangers...");
+        playerSpokeToNPC = true;
     }
 }

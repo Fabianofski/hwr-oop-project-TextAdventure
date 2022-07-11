@@ -27,7 +27,7 @@ public class IOHandlerTest {
     }
 
     @Test
-    void ioHandler_addToOutputBuffer_addsToIOHandlerAndGetsIOHandlerWithAddedInput() {
+    void addToOutputBuffer_addTestInputToOutput_getOutputBufferReturnsTestInput() {
         ioHandler.addToOutputBuffer(testInput);
         String result = ioHandler.getOutputBuffer();
 
@@ -35,7 +35,7 @@ public class IOHandlerTest {
     }
 
     @Test
-    void ioHandler_clearOutputBuffer_clearsIOHandler() {
+    void clearOutputBuffer_addTestInputToOutputAndClearOutputBuffer_getOutputBufferReturnsEmptyString() {
         ioHandler.addToOutputBuffer(testInput);
         ioHandler.clearOutputBuffer();
         String result = ioHandler.getOutputBuffer();
@@ -44,12 +44,11 @@ public class IOHandlerTest {
     }
 
     @Test
-    void ioHandler_writeOutputAndClearBuffer_writesInputInOutputAndClearsBuffer() {
+    void writeOutputAndClearBuffer_addTestInputToBufferAndWriteAndClearBuffer_writesInputToOutputAndClearsBuffer() {
         ioHandler.addToOutputBuffer(testInput);
 
         ioHandler.writeOutputAndClearBuffer();
         String writtenOutput = output.toString();
-
         assertThat(writtenOutput).isEqualTo(testInput + newLine);
 
         String result = ioHandler.getOutputBuffer();
@@ -58,7 +57,7 @@ public class IOHandlerTest {
 
 
     @Test
-    void ioHandler_requestStringInput_returnsTestInputResponseAndWritesRequestToOutput() {
+    void requestStringInput_StringInInputStreamAndTestRequest_ReadsStringFromInputStreamAndWritesTestRequestToOutput() {
         String response = ioHandler.requestStringInput(testRequest);
         String writtenOutput = output.toString();
 
@@ -67,7 +66,7 @@ public class IOHandlerTest {
     }
 
     @Test
-    void ioHandler_requestIntegerInput_returnsTestInputResponseAndWritesRequestToOutput() {
+    void requestIntegerInput_IntegerInInputStreamAndTestRequest_ReadsIntegerFromInputStreamAndWritesTestRequestToOutput() {
         input = new ByteArrayInputStream("1 ".getBytes());
         ioHandler = new IOHandler(input, new PrintStream(output));
 
@@ -79,7 +78,7 @@ public class IOHandlerTest {
     }
 
     @Test
-    void ioHandler_requestIntegerInputAndStringInput_returnsTestIntegerInputResponseSkipsNewLineAndReturnsTestStringInputResponse() {
+    void requestIntegerInputAndStringInput_outputsTestIntegerInputResponseSkipsNewLineAndReturnsTestStringInputResponse() {
         input = new ByteArrayInputStream(("1\n" + testInput).getBytes());
         ioHandler = new IOHandler(input, new PrintStream(output));
 
