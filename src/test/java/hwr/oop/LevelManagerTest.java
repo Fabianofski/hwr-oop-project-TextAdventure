@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class LevelMangerTest {
+public class LevelManagerTest {
     @Nested
     class LevelsTests{
         LevelManager levelManager;

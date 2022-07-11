@@ -3,7 +3,7 @@
     <module name="hwr-oop-project-template" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="hwr.oop.*" />
+        <option name="PATTERN" value="hwr.oop.gameobjects.versatile.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
